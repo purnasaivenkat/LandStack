@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LandStack — Unified Land Intelligence Platform</title>
+  <meta name="description" content="LandStack is a unified government land-record intelligence platform connecting GIS, Revenue, Registration, Tax, Banking, Urban Planning, and Judiciary departments." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     LOGIN PAGE
+══════════════════════════════════════════════════════════════ -->
+<div id="login-page">
+  <div class="login-wrap">
+    <!-- Brand -->
+    <div class="login-brand">
+      <div class="logo-icon">🗺️</div>
+      <h1>LandStack</h1>
+      <p>Unified Land Intelligence Platform<br>Government of Karnataka · Pilot 2024</p>
+    </div>
+
+    <!-- Card -->
+    <div class="login-card">
+      <form id="login-form" autocomplete="off">
+        <!-- Role selector -->
+        <div class="form-group">
+          <label>Sign in as</label>
+          <div class="role-selector">
+            <button type="button" class="role-btn active" data-role="CITIZEN"
+              data-demo_user="citizen_abc">👤 Citizen</button>
+            <button type="button" class="role-btn" data-role="OFFICER"
+              data-demo_user="officer_ravi">🏛️ Officer</button>
+            <button type="button" class="role-btn" data-role="ADMIN"
+              data-demo_user="admin_sharma">⚙️ Admin</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input id="login-username" class="form-input" type="text"
+            placeholder="e.g. officer_ravi" required value="officer_ravi" />
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input id="login-password" class="form-input" type="password"
+            placeholder="••••••••" required value="password123" />
+        </div>
+
+        <button id="login-submit" type="submit" class="btn-primary w-full">
+          Sign In to LandStack
+        </button>
+      </form>
+
+      <p class="login-demo-hint">
+        Demo mode active — <span id="demo-fill">click to auto-fill credentials</span>
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <p style="text-align:center;font-size:12px;color:var(--text-muted)">
+      Member 2 Backend · FastAPI + Supabase PostgreSQL · © 2024 LandStack
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════════════════════ -->
+<div id="app-page">
+
+  <!-- ── SIDEBAR ─────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-sm">🗺️</div>
+      <span>LandStack</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <div class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+
+      <div class="nav-section-label">Land Records</div>
+      <div class="nav-item" data-page="search">
+        <span class="nav-icon">🔍</span> Parcel Search
+      </div>
+      <div class="nav-item" data-page="profile">
+        <span class="nav-icon">📋</span> Unified Profile
+      </div>
+      <div class="nav-item" data-page="gis">
+        <span class="nav-icon">🗺️</span> GIS Map View
+      </div>
+
+      <div class="nav-section-label">Intelligence</div>
+      <div class="nav-item" data-page="alerts">
+        <span class="nav-icon">🚨</span> Anomaly Alerts
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" data-page="reports">
+        <span class="nav-icon">📈</span> Reports
+      </div>
+
+      <div class="nav-section-label">System</div>
+      <div class="nav-item" data-page="settings">
+        <span class="nav-icon">⚙️</span> Settings
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" id="user-avatar">OR</div>
+        <div class="user-info">
+          <div class="name" id="user-name">Officer Ravi</div>
+          <div class="role" id="user-role">OFFICER</div>
+        </div>
+        <button class="logout-btn" id="logout-btn" title="Logout">↩</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ────────────────────────────────────────────── -->
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <span style="font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--text-secondary);margin-right:8px" id="topbar-title">Dashboard</span>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input id="global-search" class="search-input" type="text"
+          placeholder="Search ULPIN, owner name, district…" />
+        <button id="global-search-btn" class="search-btn">Search</button>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="icon-btn" title="Notifications">
+          🔔 <span class="notif-dot"></span>
+        </div>
+        <div class="icon-btn" title="Logout" id="topbar-logout">↩</div>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+
+      <!-- ── DASHBOARD ──────────────────────────────────── -->
+      <div id="page-dashboard" class="page active">
+        <div class="page-header">
+          <h2>Land Records Intelligence Dashboard</h2>
+          <p>Real-time overview across all government departments · Karnataka Pilot</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Total Parcels</span>
+              <div class="stat-icon gold">🗺️</div>
+            </div>
+            <div class="stat-value text-gold" id="stat-total-parcels">—</div>
+            <div class="stat-change">↑ 142 this month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Anomaly Flagged</span>
+              <div class="stat-icon red">🚨</div>
+            </div>
+            <div class="stat-value text-red" id="stat-anomaly-flagged">—</div>
+            <div class="stat-change negative">↑ 18 new today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Pending Tax</span>
+              <div class="stat-icon orange">🏛️</div>
+            </div>
+            <div class="stat-value text-gold" id="stat-pending-tax">—</div>
+            <div class="stat-change negative">↑ 234 overdue</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Active Mortgages</span>
+              <div class="stat-icon blue">🏦</div>
+            </div>
+            <div class="stat-value text-blue" id="stat-mortgages">—</div>
+            <div class="stat-change">↑ 28 this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Court Cases</span>
+              <div class="stat-icon purple">⚖️</div>
+            </div>
+            <div class="stat-value text-purple" id="stat-court-cases">—</div>
+            <div class="stat-change negative">↑ 4 new stays</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Registrations Today</span>
+              <div class="stat-icon green">📋</div>
+            </div>
+            <div class="stat-value text-green" id="stat-registrations">—</div>
+            <div class="stat-change">↑ vs 12 yesterday</div>
+          </div>
+        </div>
+
+        <!-- Tables + Sidebar -->
+        <div class="grid-2" style="grid-template-columns: 2fr 1fr;">
+          <!-- Recent Parcels -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><span class="dot" style="background:var(--blue)"></span> Recent Parcels</span>
+              <span class="card-action" onclick="navigateTo('search')">View all →</span>
+            </div>
+            <div class="card-body" style="padding:0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ULPIN</th><th>Owner</th><th>District</th><th>Area</th><th>Type</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="recent-parcels-body">
+                  <tr><td colspan="6"><div class="loading-overlay"><div class="spinner"></div></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Alerts -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><span class="dot" style="background:var(--red)"></span> Anomaly Alerts</span>
+              <span class="card-action" onclick="navigateTo('alerts')">All alerts →</span>
+            </div>
+            <div class="card-body">
+              <div id="dashboard-alerts" class="alert-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed + Dept Summary -->
+        <div class="grid-2" style="grid-template-columns: 1fr 2fr;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><span class="dot" style="background:var(--green)"></span> Live Activity</span>
+            </div>
+            <div class="card-body" style="padding:0 20px">
+              <div id="activity-feed" class="activity-feed"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><span class="dot" style="background:var(--gold)"></span> Department Coverage</span>
+            </div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+                ${[
+                  ['🌍','GIS / Survey','dept_gis'],
+                  ['📜','Revenue / RoR','dept_ror'],
+                  ['📋','Registration','dept_registration'],
+                  ['🏛️','Property Tax','dept_tax'],
+                  ['🏦','Banking / EC','dept_banking'],
+                  ['🗺️','Urban Planning','dept_urban_plan'],
+                  ['🏗️','Building Permits','dept_municipal'],
+                  ['⚖️','Judiciary','dept_judiciary'],
+                  ['🔐','Auth / RBAC','dept_auth'],
+                ].map(([icon, label, schema]) => `
+                  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center">
+                    <div style="font-size:24px;margin-bottom:6px">${icon}</div>
+                    <div style="font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:2px">${label}</div>
+                    <div style="font-size:10px;font-family:monospace;color:var(--text-muted)">${schema}</div>
+                    <div style="margin-top:8px"><span class="badge badge-green" style="font-size:10px">● Live</span></div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PARCEL SEARCH ───────────────────────────────── -->
+      <div id="page-search" class="page">
+        <div class="page-header">
+          <h2>Parcel Search</h2>
+          <p>Search by ULPIN, owner name, district, or taluk</p>
+        </div>
+
+        <div class="card mb-16">
+          <div class="card-body" style="padding:16px 20px">
+            <div class="flex gap-12 items-center">
+              <span style="font-size:20px">🔍</span>
+              <input id="search-parcels-input" class="form-input" style="flex:1;max-width:480px"
+                type="text" placeholder="Type ULPIN (e.g. UL001), owner name, or district…" />
+              <span class="text-muted" style="font-size:13px" id="search-count">Showing all parcels</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ULPIN</th><th>Owner</th><th>District</th><th>Taluk</th><th>Area</th><th>Land Type</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="search-table-body">
+                <tr><td colspan="7"><div class="loading-overlay"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── UNIFIED PROFILE ────────────────────────────── -->
+      <div id="page-profile" class="page">
+        <div class="page-header">
+          <h2>Unified Parcel Profile</h2>
+          <p>Complete 360° view of a parcel across all 8 government departments</p>
+        </div>
+
+        <div class="ulpin-search-banner">
+          <div class="banner-icon">🗺️</div>
+          <div style="flex:1">
+            <h3>Enter a ULPIN to load full profile</h3>
+            <p>Fetches data from GIS, Revenue, Registration, Tax, Banking, Urban Planning, Judiciary</p>
+            <div class="ulpin-input-row">
+              <input id="profile-ulpin-input" class="ulpin-input" type="text"
+                placeholder="e.g. UL001" maxlength="20" />
+              <button id="profile-search-btn" class="btn-search">🔍 Load Profile</button>
+              <button class="btn-search" style="background:rgba(99,179,237,0.15);color:var(--blue);border:1px solid var(--blue)"
+                onclick="$('#profile-ulpin-input').value='UL001';$('#profile-search-btn').click()">
+                Demo: UL001
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="profile-result">
+          <div class="empty-state">
+            <div class="empty-icon">🗺️</div>
+            <h4>Enter a ULPIN above to get started</h4>
+            <p>Try UL001, UL002, UL003 … UL006 for mock data</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GIS MAP ─────────────────────────────────────── -->
+      <div id="page-gis" class="page">
+        <div class="page-header">
+          <h2>GIS Map View</h2>
+          <p>Spatial parcel visualization — Member 1 (GIS) will integrate the full PostGIS map here</p>
+        </div>
+        <div class="map-placeholder" style="min-height:520px">
+          <span class="map-icon">🗺️</span>
+          <p>PostGIS + Leaflet.js / Mapbox Map</p>
+          <p style="font-size:13px;color:var(--text-secondary);max-width:400px;text-align:center">
+            Member 1 (GIS) will embed the full interactive parcel map here. Backend provides
+            <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">GET /api/parcels/{ulpin}</code>
+            with PostGIS geometry.
+          </p>
+          <small onclick="navigateTo('profile')">→ View Unified Profile instead</small>
+        </div>
+      </div>
+
+      <!-- ── ALERTS ─────────────────────────────────────── -->
+      <div id="page-alerts" class="page">
+        <div class="page-header">
+          <h2>Anomaly Alerts</h2>
+          <p>AI-detected cross-department discrepancies that require investigation</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><span class="dot" style="background:var(--red)"></span> Active Anomalies</span>
+            <span class="badge badge-red">5 unresolved</span>
+          </div>
+          <div class="card-body">
+            <div id="all-alerts-list"></div>
+          </div>
+        </div>
+
+        <div class="mt-24">
+          <div class="section-divider"><span>How Anomaly Detection Works</span></div>
+          <div class="grid-3">
+            ${[
+              ['🧩','Owner Mismatch','Compares owner name across RoR, Registration, and Tax records. Flags discrepancies for human review.'],
+              ['🏦','Mortgage vs. NOC','Checks if an active bank mortgage has a corresponding NOC in the Registration deed.'],
+              ['🗺️','Zone Violation','Cross-references Land Use zone with actual building permit construction type.'],
+              ['⚖️','Court Stay Alert','Flags any parcel with an active court stay from the Judiciary database.'],
+              ['💰','Tax Arrears','Identifies parcels with 2+ years of unpaid property tax.'],
+              ['📐','Area Mismatch','Compares GIS-measured area with Revenue / RoR recorded area. Flags >5% difference.'],
+            ].map(([icon, title, desc]) => `
+              <div class="card">
+                <div class="card-body" style="text-align:center;padding:24px">
+                  <div style="font-size:32px;margin-bottom:12px">${icon}</div>
+                  <div style="font-weight:600;margin-bottom:8px">${title}</div>
+                  <div style="font-size:12px;color:var(--text-secondary)">${desc}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REPORTS ─────────────────────────────────────── -->
+      <div id="page-reports" class="page">
+        <div class="page-header">
+          <h2>Reports</h2>
+          <p>Exportable land-record intelligence reports for officers and administrators</p>
+        </div>
+        <div class="empty-state" style="padding:80px">
+          <div class="empty-icon">📈</div>
+          <h4>Reports coming soon</h4>
+          <p>Member 4 (Frontend) will build the reports dashboard here using the<br>
+          <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">/api/area/</code> and
+          <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">/api/unified/</code> endpoints.</p>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ────────────────────────────────────── -->
+      <div id="page-settings" class="page">
+        <div class="page-header">
+          <h2>Settings</h2>
+          <p>System configuration and API integration settings</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">🔌 API Connection</span></div>
+            <div class="card-body">
+              <div class="dept-kv-grid">
+                <div class="kv-item">
+                  <div class="kv-key">Backend URL</div>
+                  <div class="kv-val" style="font-size:13px;font-family:monospace">http://localhost:8000</div>
+                </div>
+                <div class="kv-item">
+                  <div class="kv-key">Supabase Project</div>
+                  <div class="kv-val" style="font-size:13px;font-family:monospace">slrjtctvyhhbwwcgomcy</div>
+                </div>
+                <div class="kv-item">
+                  <div class="kv-key">Mode</div>
+                  <div class="kv-val"><span class="badge badge-orange">🔶 Mock Data</span></div>
+                </div>
+                <div class="kv-item">
+                  <div class="kv-key">Auth</div>
+                  <div class="kv-val"><span class="badge badge-blue">JWT Bearer</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">👥 Team Members</span></div>
+            <div class="card-body">
+              ${[
+                ['🌍','Member 1','GIS & PostGIS Spatial Layer','member-1-gis'],
+                ['⚙️','Member 2','Backend + Integration (You)','member-2-backend'],
+                ['🤖','Member 3','AI Agent & LLM Tools','member-3-ai-agent'],
+                ['🎨','Member 4','Frontend (This UI)','member-4-frontend'],
+              ].map(([icon, name, role, branch]) => `
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+                  <span style="font-size:22px">${icon}</span>
+                  <div>
+                    <div style="font-weight:600;font-size:14px">${name}</div>
+                    <div style="font-size:12px;color:var(--text-secondary)">${role}</div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:auto;font-family:monospace">${branch}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main-content -->
+</div><!-- /app-page -->
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
