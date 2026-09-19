@@ -23,12 +23,12 @@ from app.routers import (
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan context: Initialize tables and seed mock data on startup."""
-    print("🚀 Starting LandStack Backend (Member 2 - Central Integration Layer)...")
+    print("[*] Starting LandStack Backend (Member 2 - Central Integration Layer)...")
     Base.metadata.create_all(bind=engine)
     if settings.AUTO_SEED_DATABASE:
         seed_database()
     yield
-    print("🛑 Shutting down LandStack Backend...")
+    print("[*] Shutting down LandStack Backend...")
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -86,8 +86,8 @@ def root_status():
             "UL001": "Clean Agricultural parcel (0 risk)",
             "UL002": "Area Mismatch Demo (GIS 3.20 acres vs RoR 2.80 acres)",
             "UL003": "Active Court Stay Order Demo (Judicial Injunction)",
-            "UL004": "Heavy Bank Mortgage Lien Demo (SBI ₹4.5 Crore)",
-            "UL005": "Tax Defaulter Demo (3 years overdue ₹78,000)",
-            "UL006": "Unauthorized Construction & Green Belt Zone Conflict"
+            "UL004": "Heavy Bank Mortgage Lien Demo (SBI 4.5 Crore)",
+            "UL005": "Tax Defaulter Demo (3 years overdue 78,000 INR)",
+            "UL006": "Unauthorized Construction and Green Belt Zone Conflict"
         }
     }

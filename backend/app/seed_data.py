@@ -22,10 +22,10 @@ def seed_database(db: Session = None):
     try:
         # Check if already seeded
         if db.query(Parcel).count() > 0:
-            print("✓ Database already seeded. Skipping initial seeding.")
+            print("[OK] Database already seeded. Skipping initial seeding.")
             return
 
-        print("⚡ Seeding LandStack Relational Land-Record Database with Realistic Mock Data...")
+        print("[*] Seeding LandStack Relational Land-Record Database with Realistic Mock Data...")
 
         # 1. Seed Users (RBAC)
         users = [
@@ -648,10 +648,10 @@ def seed_database(db: Session = None):
             db.add(p_set["court_case"])
 
         db.commit()
-        print("✓ Successfully seeded 12 comprehensive parcels with realistic demo discrepancies!")
+        print("[OK] Successfully seeded 12 comprehensive parcels with realistic demo discrepancies!")
     except Exception as e:
         db.rollback()
-        print(f"✗ Failed to seed database: {e}")
+        print(f"[ERROR] Failed to seed database: {e}")
         raise
     finally:
         if close_db:
