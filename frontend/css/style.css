@@ -934,6 +934,35 @@ input, select, textarea { font-family: inherit; }
 .empty-state h4 { font-size: 16px; color: var(--text-secondary); margin-bottom: 8px; }
 .empty-state p  { font-size: 13px; }
 
+/* ── Clickable cells ───────────────────────────────────────── */
+.clickable { cursor: pointer; }
+.clickable:hover { color: var(--blue) !important; text-decoration: underline; }
+
+.link-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+.link-btn:hover {
+  background: var(--blue-dim);
+  border-color: var(--blue);
+}
+
+/* ── Connection status pill ────────────────────────────────── */
+#backend-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+}
+
 /* ── Section Divider ───────────────────────────────────────── */
 .section-divider {
   display: flex;

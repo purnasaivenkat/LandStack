@@ -118,7 +118,7 @@
           <div class="name" id="user-name">Officer Ravi</div>
           <div class="role" id="user-role">OFFICER</div>
         </div>
-        <button class="logout-btn" id="logout-btn" title="Logout">↩</button>
+        <button class="logout-btn" data-logout title="Logout">↩</button>
       </div>
     </div>
   </aside>
@@ -141,7 +141,8 @@
         <div class="icon-btn" title="Notifications">
           🔔 <span class="notif-dot"></span>
         </div>
-        <div class="icon-btn" title="Logout" id="topbar-logout">↩</div>
+        <span id="backend-status">⏳ Connecting…</span>
+        <div class="icon-btn" title="Logout" data-logout>↩</div>
       </div>
     </div>
 
@@ -409,16 +410,10 @@
       <!-- ── REPORTS ─────────────────────────────────────── -->
       <div id="page-reports" class="page">
         <div class="page-header">
-          <h2>Reports</h2>
-          <p>Exportable land-record intelligence reports for officers and administrators</p>
+          <h2>Area Analysis Reports</h2>
+          <p>Live area-level intelligence pulled from <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">/api/area-analysis/by-ulpins</code></p>
         </div>
-        <div class="empty-state" style="padding:80px">
-          <div class="empty-icon">📈</div>
-          <h4>Reports coming soon</h4>
-          <p>Member 4 (Frontend) will build the reports dashboard here using the<br>
-          <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">/api/area/</code> and
-          <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">/api/unified/</code> endpoints.</p>
-        </div>
+        <div id="reports-content"></div>
       </div>
 
       <!-- ── SETTINGS ────────────────────────────────────── -->
