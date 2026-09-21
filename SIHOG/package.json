@@ -1,0 +1,36 @@
+{
+  "name": "landstack-gis-engine",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "generate-cadastral": "tsx scripts/generate_cadastral.ts",
+    "seed-supabase": "tsx scripts/seed_supabase.ts",
+    "validate-dataset": "tsx scripts/validate_dataset.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "@turf/turf": "^7.1.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.440.0",
+    "maplibre-gl": "^4.7.1",
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.5.2"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.14",
+    "@types/node": "^22.5.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}
