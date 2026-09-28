@@ -13,21 +13,25 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api"
     DESCRIPTION: str = (
-        "LandStack Central Connection Layer (Member 2) connecting GIS, Land Records, "
+        "LandStack Central Connection Layer connecting GIS, Land Records, "
         "AI Agents, and Frontend through unified REST APIs."
     )
     
     # Database configuration (Defaults to SQLite for zero-setup, supports PostgreSQL / Supabase)
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./landstack.db")
+    DATABASE_URL: str = "sqlite:///./landstack.db"
     
     # Supabase metadata
     SUPABASE_PROJECT_ID: Optional[str] = "slrjtctvyhhbwwcgomcy"
     SUPABASE_URL: Optional[str] = "https://slrjtctvyhhbwwcgomcy.supabase.co"
+    SUPABASE_PUBLISHABLE_KEY: Optional[str] = "sb_publishable_BLYmFLhC_EstHmfnHt2UpA_4LATE0c9"
 
     # JWT & Security Configuration
     JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "landstack-super-secret-key-change-in-production-2025")
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
+    # LLM integration (Google Gemini by default if GEMINI_API_KEY present)
+    LLM_ENDPOINT: Optional[str] = os.getenv("LLM_ENDPOINT", "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent")
+    LLM_API_KEY: Optional[str] = os.getenv("LLM_API_KEY", "")
     
     # CORS Configuration
     CORS_ORIGINS: List[str] = [

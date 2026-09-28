@@ -35,7 +35,7 @@ def detect_anomalies_and_risk(
             direction = "Encroachment/Excess GIS extent" if diff > 0 else "Physical boundary shortfall"
             anomalies.append(
                 AnomalyItem(
-                    category="AREA_MISMATCH",
+                    type="AREA_MISMATCH",
                     severity=severity,
                     title="GIS vs Legal Document Area Mismatch",
                     description=(
@@ -54,7 +54,7 @@ def detect_anomalies_and_risk(
             penalty_score += 80  # Stay order freezes property transaction
             anomalies.append(
                 AnomalyItem(
-                    category="LEGAL_STAY",
+                    type="LEGAL_STAY",
                     severity=SeverityLevel.CRITICAL,
                     title="Active Judicial Injunction / Stay Order",
                     description=(
@@ -70,7 +70,7 @@ def detect_anomalies_and_risk(
             penalty_score += 40
             anomalies.append(
                 AnomalyItem(
-                    category="PENDING_LITIGATION",
+                    type="PENDING_LITIGATION",
                     severity=SeverityLevel.HIGH,
                     title="Pending Court Litigation",
                     description=f"Active dispute pending in {court_case.court_name}: {court_case.case_summary or 'Title Suit'}",
@@ -85,7 +85,7 @@ def detect_anomalies_and_risk(
         penalty_score += 30
         anomalies.append(
             AnomalyItem(
-                category="ENCUMBRANCE_LIEN",
+                type="ENCUMBRANCE_LIEN",
                 severity=SeverityLevel.HIGH,
                 title="Active Bank Mortgage / Financial Lien",
                 description=(
@@ -106,7 +106,7 @@ def detect_anomalies_and_risk(
             penalty_score += 25 if tax.payment_status == TaxPaymentStatus.DEFAULTED else 15
             anomalies.append(
                 AnomalyItem(
-                    category="TAX_ARREARS",
+                    type="TAX_ARREARS",
                     severity=severity,
                     title="Outstanding Municipal Tax Arrears",
                     description=f"Unpaid property taxes of ₹{tax_due_total:,.2f} for Assessment Year {tax.assessment_year}.",
@@ -126,7 +126,7 @@ def detect_anomalies_and_risk(
                 penalty_score += 40
                 anomalies.append(
                     AnomalyItem(
-                        category="ZONING_VIOLATION",
+                        type="ZONING_VIOLATION",
                         severity=SeverityLevel.HIGH,
                         title="Unauthorized Non-Agricultural Usage (No Conversion Order)",
                         description=(
@@ -146,7 +146,7 @@ def detect_anomalies_and_risk(
             floor_diff = building_permit.actual_floors - building_permit.sanctioned_floors
             anomalies.append(
                 AnomalyItem(
-                    category="BUILDING_VIOLATION",
+                    type="BUILDING_VIOLATION",
                     severity=SeverityLevel.HIGH,
                     title="Building Plan Floor Deviation Detected",
                     description=(
@@ -162,7 +162,7 @@ def detect_anomalies_and_risk(
             penalty_score += 20
             anomalies.append(
                 AnomalyItem(
-                    category="PERMIT_REJECTED",
+                    type="PERMIT_REJECTED",
                     severity=SeverityLevel.MEDIUM,
                     title="Building Permit Plan Rejected",
                     description=f"Building plan was rejected by {building_permit.sanctioning_authority}.",
@@ -197,11 +197,12 @@ def detect_anomalies_and_risk(
         summary_msg = "Critical Alert / Blocked: Active court stay order or critical violations. Alienation prohibited."
 
     risk_summary = RiskSummary(
-        score=composite_score,
-        level=risk_level,
+        risk_score=composite_score,
+        risk_level=risk_level,
         anomaly_count=len(anomalies),
         is_safe_for_transaction=is_safe,
-        summary=summary_msg
+        summary=summary_msg,
+        anomalies=anomalies  # Embed anomalies inside risk_summary for frontend access
     )
 
     return anomalies, risk_summary

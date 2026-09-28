@@ -21,22 +21,33 @@ from app.schemas.unified_profile import UnifiedParcelProfile
 from app.schemas.area_analysis import AreaAnalysisSummary, AreaAnalysisResponse
 from app.services.anomaly_detector import detect_anomalies_and_risk
 
+def normalize_ulpin(ulpin: str) -> str:
+    cleaned = (ulpin or "").strip()
+    if len(cleaned) >= 2 and cleaned[0].upper() == 'P' and cleaned[1:].isdigit():
+        num = int(cleaned[1:])
+        return f"ULPIN-DEMO-{num:06d}"
+    return cleaned.upper()
+
 def get_unified_parcel_profile(ulpin: str, db: Session) -> UnifiedParcelProfile:
     """Fetch all 7 land-record datasets and run anomaly detection for a given ULPIN."""
-    parcel = db.query(Parcel).filter(Parcel.ulpin == ulpin).first()
+    target_ulpin = normalize_ulpin(ulpin)
+    parcel = db.query(Parcel).filter(Parcel.ulpin == target_ulpin).first()
+    if not parcel:
+        parcel = db.query(Parcel).filter(Parcel.ulpin == ulpin.strip()).first()
     if not parcel:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Parcel with ULPIN '{ulpin}' not found in LandStack database."
         )
 
-    ror = db.query(RoR).filter(RoR.ulpin == ulpin).first()
-    registration = db.query(Registration).filter(Registration.ulpin == ulpin).first()
-    tax = db.query(Tax).filter(Tax.ulpin == ulpin).order_by(Tax.id.desc()).first()
-    encumbrance = db.query(Encumbrance).filter(Encumbrance.ulpin == ulpin).order_by(Encumbrance.id.desc()).first()
-    land_use = db.query(LandUse).filter(LandUse.ulpin == ulpin).first()
-    building_permit = db.query(BuildingPermit).filter(BuildingPermit.ulpin == ulpin).first()
-    court_case = db.query(CourtCase).filter(CourtCase.ulpin == ulpin).first()
+    resolved_ulpin = parcel.ulpin
+    ror = db.query(RoR).filter(RoR.ulpin == resolved_ulpin).first()
+    registration = db.query(Registration).filter(Registration.ulpin == resolved_ulpin).first()
+    tax = db.query(Tax).filter(Tax.ulpin == resolved_ulpin).order_by(Tax.id.desc()).first()
+    encumbrance = db.query(Encumbrance).filter(Encumbrance.ulpin == resolved_ulpin).order_by(Encumbrance.id.desc()).first()
+    land_use = db.query(LandUse).filter(LandUse.ulpin == resolved_ulpin).first()
+    building_permit = db.query(BuildingPermit).filter(BuildingPermit.ulpin == resolved_ulpin).first()
+    court_case = db.query(CourtCase).filter(CourtCase.ulpin == resolved_ulpin).first()
 
     anomalies, risk_summary = detect_anomalies_and_risk(
         parcel=parcel,
@@ -101,7 +112,7 @@ def perform_area_analysis(ulpins: List[str], db: Session) -> AreaAnalysisRespons
                 zone_name = profile.land_use.master_plan_zone.value
                 zoning_breakdown[zone_name] = zoning_breakdown.get(zone_name, 0) + 1
 
-            total_risk_score += profile.risk_summary.score
+            total_risk_score += profile.risk_summary.risk_score
         except HTTPException:
             continue
 
@@ -113,12 +124,12 @@ def perform_area_analysis(ulpins: List[str], db: Session) -> AreaAnalysisRespons
     summary = AreaAnalysisSummary(
         total_parcels=total_parcels,
         total_gis_area_acres=round(total_gis_area, 2),
-        total_doc_area_acres=round(total_doc_area, 2),
-        area_discrepancy_acres=area_discrepancy,
-        disputed_parcels_count=disputed_count,
+        total_document_area_acres=round(total_doc_area, 2),
+        net_area_discrepancy_acres=area_discrepancy,
+        litigated_parcels_count=disputed_count,
         encumbered_parcels_count=encumbered_count,
         tax_default_count=tax_default_count,
-        total_tax_dues=round(total_tax_dues, 2),
+        total_tax_arrears=round(total_tax_dues, 2),
         zoning_breakdown=zoning_breakdown,
         overall_health_score=health_score,
     )

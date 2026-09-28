@@ -18,13 +18,18 @@ class SeverityLevel(str, enum.Enum):
     CRITICAL = "CRITICAL"
 
 class AnomalyItem(BaseModel):
-    category: str  # e.g., "AREA_MISMATCH", "LEGAL_STAY", "ENCUMBRANCE_LIEN", "TAX_ARREARS", "ZONING_VIOLATION", "BUILDING_VIOLATION"
+    type: str  # e.g., "AREA_MISMATCH", "LEGAL_STAY", "ENCUMBRANCE_LIEN", "TAX_ARREARS", "ZONING_VIOLATION", "BUILDING_VIOLATION"
+    category: Optional[str] = None
     severity: SeverityLevel
     title: str
     description: str
     gis_value: Optional[str] = None
     record_value: Optional[str] = None
     delta: Optional[str] = None
+
+    def model_post_init(self, __context):
+        if self.category is None:
+            self.category = self.type
 
 class RiskLevel(str, enum.Enum):
     CLEAN = "CLEAN"
@@ -34,11 +39,20 @@ class RiskLevel(str, enum.Enum):
     BLOCKED = "BLOCKED"
 
 class RiskSummary(BaseModel):
-    score: int  # 0 (Clear) to 100 (Severe Risk/Blocked)
-    level: RiskLevel
+    risk_score: int  # 0 (Clear) to 100 (Severe Risk/Blocked)
+    score: Optional[int] = None
+    risk_level: RiskLevel
+    level: Optional[RiskLevel] = None
     anomaly_count: int
     is_safe_for_transaction: bool
     summary: str
+    anomalies: List["AnomalyItem"] = []  # Embedded for frontend access via risk_summary.anomalies
+
+    def model_post_init(self, __context):
+        if self.score is None:
+            self.score = self.risk_score
+        if self.level is None:
+            self.level = self.risk_level
 
 class AnomalyReport(BaseModel):
     ulpin: str

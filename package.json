@@ -1,0 +1,14 @@
+{
+  "name": "landstack-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LandStack — Unified Land Intelligence & Governance Platform (GIS, Backend, AI Agent, Frontend)",
+  "scripts": {
+    "dev:gis": "npm --prefix SIHOG run dev",
+    "build:gis": "npm --prefix SIHOG run build",
+    "seed:gis": "npm --prefix SIHOG run seed-supabase",
+    "validate:gis": "npm --prefix SIHOG run validate-dataset",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build"
+  }
+}

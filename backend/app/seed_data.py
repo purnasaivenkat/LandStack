@@ -567,7 +567,7 @@ def seed_database(db: Session = None):
 
         # Additional standard parcels (UL007 to UL012)
         for i in range(7, 13):
-            ulpin_id = f"UL00{i:02d}" if i < 10 else f"UL0{i:02d}"
+            ulpin_id = f"UL0{i:02d}"  # Generates UL007, UL008, ..., UL012
             parcels_data.append({
                 "parcel": Parcel(
                     ulpin=ulpin_id,
