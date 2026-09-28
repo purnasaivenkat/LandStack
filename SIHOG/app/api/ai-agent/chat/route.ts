@@ -12,7 +12,19 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Optional LLM Call (Gemini) if API Key is configured in environment
+    // 1. Check authoritative registry knowledge engine first
+    const domainResult = queryLandStackCopilot(q);
+
+    // If the question is a direct cadastral/legal benchmark query, return the precise registry record
+    const isDirectBenchmarkMatch = 
+      domainResult.tool_used !== "intelligent_semantic_engine" && 
+      domainResult.tool_used !== "copilot_manifest";
+
+    if (isDirectBenchmarkMatch) {
+      return NextResponse.json(domainResult);
+    }
+
+    // 2. For open-ended, general, or educational queries, call Gemini LLM if key is present
     const apiKey = process.env.GEMINI_API_KEY || process.env.LLM_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (apiKey) {
       const candidateModels = [
@@ -59,7 +71,12 @@ Question: ${q}`
               const ulpinMatches = q.match(/UL00[1-6]|ULPIN[-A-Z0-9]+/gi);
               return NextResponse.json({
                 answer: cand.trim(),
-                parcel_ids: ulpinMatches ? ulpinMatches.map((u: string) => u.toUpperCase()) : [],
+                parcel_ids: ulpinMatches ? ulpinMatches.map((u: string) => u.toUpperCase()) : domainResult.parcel_ids,
+                tool_used: `gemini_copilot`,
+                risk_score: domainResult.risk_score,
+                risk_level: domainResult.risk_level,
+                is_safe: domainResult.is_safe,
+                anomalies: domainResult.anomalies,
                 sources: [`gemini_${model}`, "landstack_registry"]
               });
             }
@@ -70,9 +87,8 @@ Question: ${q}`
       }
     }
 
-    // Comprehensive semantic knowledge engine
-    const result = queryLandStackCopilot(q);
-    return NextResponse.json(result);
+    // 3. Fallback to comprehensive knowledge engine
+    return NextResponse.json(domainResult);
   } catch (error: any) {
     return NextResponse.json(
       { error: error?.message || "Failed to process AI Copilot query." },

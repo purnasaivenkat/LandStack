@@ -23,6 +23,164 @@ interface Message {
   ulpin?: string;
 }
 
+const RenderMessageContent: React.FC<{ content: string; isUser: boolean }> = ({ content, isUser }) => {
+  if (isUser) {
+    return <div className="whitespace-pre-wrap">{content}</div>;
+  }
+
+  const lines = content.split('\n');
+  const elements: React.ReactNode[] = [];
+  let tableRows: string[] = [];
+  let inTable = false;
+
+  const renderFormattedInline = (text: string): React.ReactNode => {
+    const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+    return parts.map((part, pi) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const val = part.slice(2, -2);
+        if (val === 'BLOCKED' || val.includes('STAY ORDER ACTIVE')) {
+          return <span key={pi} className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">🚨 {val}</span>;
+        }
+        if (val === 'HIGH_RISK') {
+          return <span key={pi} className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">⚠️ {val}</span>;
+        }
+        if (val === 'CLEAN' || val === 'CLEAR TITLE') {
+          return <span key={pi} className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">✅ {val}</span>;
+        }
+        if (val === 'MODERATE' || val === 'MODERATE_RISK') {
+          return <span key={pi} className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-800 border border-yellow-300">🟡 {val}</span>;
+        }
+        return <strong key={pi} className="font-semibold text-slate-900">{val}</strong>;
+      }
+      if (part.startsWith('`') && part.endsWith('`')) {
+        const codeVal = part.slice(1, -1);
+        return <code key={pi} className="px-1.5 py-0.5 rounded bg-sky-50 text-sky-800 font-mono text-[11px] border border-sky-200 font-semibold">{codeVal}</code>;
+      }
+      return part;
+    });
+  };
+
+  const flushTable = (keyPrefix: string) => {
+    if (tableRows.length === 0) return;
+    const headerRow = tableRows[0];
+    const dataRows = tableRows.slice(1).filter(r => !r.includes('---'));
+    const parseCells = (row: string) => row.split('|').map(c => c.trim()).filter((c, i, arr) => (i > 0 && i < arr.length - 1) || c !== '');
+
+    const headers = parseCells(headerRow);
+
+    elements.push(
+      <div key={`table-${keyPrefix}`} className="overflow-x-auto my-2.5 border border-slate-200 rounded-xl shadow-xs">
+        <table className="w-full text-left text-[11px]">
+          <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
+            <tr>
+              {headers.map((h, hi) => (
+                <th key={hi} className="px-3 py-2 border-r border-slate-200 last:border-r-0 whitespace-nowrap">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 bg-white">
+            {dataRows.map((dr, dri) => {
+              const cells = parseCells(dr);
+              return (
+                <tr key={dri} className="hover:bg-slate-50/80 transition">
+                  {cells.map((cell, ci) => (
+                    <td key={ci} className="px-3 py-2 border-r border-slate-100 last:border-r-0 whitespace-nowrap">
+                      {renderFormattedInline(cell)}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+    tableRows = [];
+    inTable = false;
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    if (line.startsWith('|') && line.endsWith('|')) {
+      inTable = true;
+      tableRows.push(line);
+      continue;
+    } else if (inTable) {
+      flushTable(`line-${i}`);
+    }
+
+    if (!line) {
+      elements.push(<div key={`sp-${i}`} className="h-1.5" />);
+      continue;
+    }
+
+    if (line.startsWith('### ')) {
+      elements.push(
+        <div key={`h3-${i}`} className="text-sm font-bold text-slate-900 border-b border-slate-200/80 pb-1 mb-2 mt-2 flex items-center gap-1.5">
+          {renderFormattedInline(line.replace('### ', ''))}
+        </div>
+      );
+      continue;
+    }
+    if (line.startsWith('#### ')) {
+      elements.push(
+        <div key={`h4-${i}`} className="text-xs font-bold text-slate-800 mt-2 mb-1">
+          {renderFormattedInline(line.replace('#### ', ''))}
+        </div>
+      );
+      continue;
+    }
+
+    if (/^[\*\-•]\s+/.test(line)) {
+      const cleanLine = line.replace(/^[\*\-•]\s+/, '');
+      elements.push(
+        <div key={`b-${i}`} className="flex items-start gap-2 py-0.5 pl-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0" />
+          <div className="flex-1 text-slate-700 leading-relaxed">
+            {renderFormattedInline(cleanLine)}
+          </div>
+        </div>
+      );
+      continue;
+    }
+
+    if (/^\s+[\*\-•]\s+/.test(lines[i])) {
+      const cleanLine = lines[i].replace(/^\s+[\*\-•]\s+/, '');
+      elements.push(
+        <div key={`sb-${i}`} className="flex items-start gap-2 py-0.5 pl-5">
+          <span className="w-1.5 h-1.5 rounded-xs bg-slate-400 mt-1.5 shrink-0" />
+          <div className="flex-1 text-slate-600 text-[11px] leading-relaxed">
+            {renderFormattedInline(cleanLine)}
+          </div>
+        </div>
+      );
+      continue;
+    }
+
+    if (line.toLowerCase().includes('regulatory note:') || line.toLowerCase().includes('findings:') || line.startsWith('💡')) {
+      elements.push(
+        <div key={`callout-${i}`} className="mt-2.5 p-2.5 bg-blue-50/70 border border-blue-200/80 rounded-xl text-blue-950 text-[11px] leading-relaxed shadow-2xs">
+          {renderFormattedInline(line)}
+        </div>
+      );
+      continue;
+    }
+
+    elements.push(
+      <p key={`p-${i}`} className="text-slate-700 leading-relaxed my-1">
+        {renderFormattedInline(line)}
+      </p>
+    );
+  }
+
+  if (inTable) {
+    flushTable('end');
+  }
+
+  return <div className="space-y-0.5">{elements}</div>;
+};
+
 export const AIGeneratorModal: React.FC<AIGeneratorModalProps> = ({
   isOpen,
   onClose,
@@ -276,7 +434,7 @@ export const AIGeneratorModal: React.FC<AIGeneratorModalProps> = ({
                         <Sparkles className="w-3 h-3 text-sky-600" /> Tool: {m.toolUsed}
                       </div>
                     )}
-                    <div className="whitespace-pre-wrap">{m.text}</div>
+                    <RenderMessageContent content={m.text} isUser={m.sender === 'user'} />
 
                     {m.anomalies && m.anomalies.length > 0 && (
                       <div className="mt-3 p-2.5 bg-orange-50 rounded-xl border border-orange-200 text-[11px] space-y-1">
