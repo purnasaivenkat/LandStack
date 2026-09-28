@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LandStackAIToolsSpecification",
+  "description": "Standardized tool calling specification for Member 3's LLM Agent",
+  "tools": [
+    {
+      "name": "get_unified_parcel_profile",
+      "description": "Fetch the complete 360-degree profile for a land parcel by its ULPIN including GIS boundaries, RoR ownership, tax records, encumbrances, court cases, zoning, and risk anomalies.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ulpin": {
+            "type": "string",
+            "description": "The Unique Land Parcel Identification Number (e.g. 'UL001', 'UL002')"
+          }
+        },
+        "required": ["ulpin"]
+      }
+    },
+    {
+      "name": "get_parcels_in_area",
+      "description": "Retrieve and aggregate all parcel records within a specified list of ULPINs or GIS region.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ulpins": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of ULPIN strings"
+          }
+        },
+        "required": ["ulpins"]
+      }
+    },
+    {
+      "name": "get_court_cases",
+      "description": "Check if a parcel has active court disputes, injunctions, or stay orders.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ulpin": { "type": "string", "description": "The ULPIN of the parcel" }
+        },
+        "required": ["ulpin"]
+      }
+    },
+    {
+      "name": "get_encumbrance_status",
+      "description": "Check bank mortgage loans and financial liens for a parcel.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ulpin": { "type": "string", "description": "The ULPIN of the parcel" }
+        },
+        "required": ["ulpin"]
+      }
+    }
+  ]
+}
