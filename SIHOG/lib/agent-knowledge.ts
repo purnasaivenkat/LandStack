@@ -1064,6 +1064,97 @@ Here is the cross-registry audit summary for all benchmark ULPINs in the LandSta
     };
   }
 
+  // Ancestral Property & Hindu Succession Act (Coparcenary Rights)
+  if (qLower.includes("ancestral") || qLower.includes("inheritance") || qLower.includes("daughter") || qLower.includes("women right") || qLower.includes("hindu succession") || qLower.includes("coparcener") || qLower.includes("partition suit")) {
+    return {
+      answer: `### 👨‍👩‍👧 Ancestral Property & Inheritance Laws in India\n\nGoverned by the **Hindu Succession (Amendment) Act, 2005** and the Supreme Court precedent in ***Vineeta Sharma vs Rakesh Sharma (2020)***:\n\n• **Equal Coparcenary Rights for Daughters**: Daughters have identical coparcenary rights by birth as sons in ancestral property, irrespective of whether the father was alive on September 9, 2005.\n• **Ancestral vs Self-Acquired**: Ancestral property is inherited up to 4 generations of male lineage without formal division. Self-acquired property can be willed or sold freely without coparcener consent.\n• **Risk in Land Transactions**: If a seller alienates ancestral land without the registered consent of all legal heirs (including daughters and minor coparceners), any excluded heir can challenge the sale in civil court (as seen in Parcel \`UL003\` under stay in OS/442/2023).`,
+      parcel_ids: ["UL003"],
+      tool_used: "ancestral_property_engine",
+      risk_score: 50,
+      risk_level: "MODERATE_RISK",
+      is_safe: false,
+      anomalies: ["Ancestral property transactions require NOC and signatures from all legal coparceners."]
+    };
+  }
+
+  // Freehold vs Leasehold Properties
+  if (qLower.includes("freehold") || qLower.includes("leasehold") || qLower.includes("99 year") || qLower.includes("lease hold") || qLower.includes("free hold")) {
+    return {
+      answer: `### 🏢 Freehold vs Leasehold Property Ownership\n\n• **Freehold Property**: The buyer holds absolute, perpetual, and unencumbered ownership of both the physical land and any structures erected thereon. No state consent or annual ground rent is required to sell, gift, or mortgage.\n• **Leasehold Property**: Land is leased by a government body or statutory development authority (such as CIDCO, MHADA, DDA, or MIDC) for a fixed term (typically **99 years**).\n  - Ownership reverts to the lessor at expiry unless renewed.\n  - Sale or transfer mandates a formal **Transfer Permission / NOC** and payment of unearned increase / transfer premium charges to the authority.\n• **Bank Financing**: Nationalized banks readily finance freehold properties, whereas leasehold properties require at least 30+ years remaining lease tenure.`,
+      parcel_ids: [],
+      tool_used: "property_tenure_engine",
+      risk_score: 0,
+      risk_level: "CLEAN",
+      is_safe: true,
+      anomalies: []
+    };
+  }
+
+  // Patta, Chitta, Adangal, Jamabandi (Regional Revenue Lexicon)
+  if (qLower.includes("patta") || qLower.includes("chitta") || qLower.includes("adangal") || qLower.includes("jamabandi") || qLower.includes("khasra") || qLower.includes("khatauni")) {
+    return {
+      answer: `### 📜 Regional Land Revenue Terminology (Patta, Chitta, Adangal, Khasra)\n\nIndian state land administration uses localized revenue terms for ownership and crop records:\n\n• **Patta & Chitta (Tamil Nadu & Kerala)**: *Patta* is the official government legal record issued by the Tahsildar establishing ownership. *Chitta* records the village land classification (wet/dry/nanjai/punjai) and tax dues.\n• **Adangal (Andhra Pradesh & Telangana)**: Village Form No. 3 documenting survey number, total extent, landholder name, irrigation type, and seasonal crop cultivation.\n• **Khasra & Khatauni (North India - UP, Haryana, Punjab, Bihar)**: *Khasra* identifies the specific geographical plot number and dimensions. *Khatauni* lists all landholdings belonging to a single family or person across the revenue village.\n• **Jamabandi**: The master Record of Rights (RoR) revised every 5 years in northern states recording proprietary and cultivating rights.`,
+      parcel_ids: [],
+      tool_used: "regional_lexicon_engine",
+      risk_score: 0,
+      risk_level: "CLEAN",
+      is_safe: true,
+      anomalies: []
+    };
+  }
+
+  // Gift Deed, Sale Deed & Relinquishment Deed
+  if (qLower.includes("gift deed") || qLower.includes("relinquishment") || qLower.includes("settlement deed") || qLower.includes("release deed") || qLower.includes("sale deed")) {
+    return {
+      answer: `### 📜 Conveyance Deeds: Sale Deed vs Gift Deed vs Relinquishment Deed\n\n• **Sale Deed (Section 54 TPA)**: Transfers title in exchange for financial monetary consideration. Attracts full stamp duty (3% to 6%) and registration fees (1%).\n• **Gift Deed (Section 122 TPA)**: Transfers immovable property gratuitously without monetary exchange.\n  - Must be accepted by the donee during the lifetime of the donor.\n  - Once registered and accepted, a gift deed is **irrevocable** (cannot be unilaterally cancelled by donor).\n  - Concessional stamp duty applies for gifts between linear blood relatives.\n• **Relinquishment / Release Deed**: Executed by a legal co-owner or coparcener renouncing their legal share in inherited ancestral property in favour of other co-owners.`,
+      parcel_ids: [],
+      tool_used: "conveyance_types_engine",
+      risk_score: 0,
+      risk_level: "CLEAN",
+      is_safe: true,
+      anomalies: []
+    };
+  }
+
+  // Consequences of Unpaid Property Taxes
+  if (qLower.includes("consequences of not paying") || qLower.includes("penalty for tax") || qLower.includes("why pay tax") || qLower.includes("tax default penalty")) {
+    return {
+      answer: `### ⚠️ Legal Consequences of Property Tax Defaults in India\n\nFailing to pay municipal or panchayat property taxes carries statutory liabilities under State Municipal Corporation & Revenue Acts:\n\n1. **Statutory Penalties**: Penal interest compounded at **18% to 24% per annum** on accrued arrears.\n2. **Stoppage of Deed Registration**: Sub-Registrar Offices require updated tax paid receipts / Form 16; deeds for defaulting properties cannot be lawfully registered.\n3. **Refusal of Mutation & Khata Transfer**: Municipalities freeze Khata issuance and mutation until all outstanding arrears and cess are cleared.\n4. **Revenue Attachment & Distress Warrant**: Under Section 104 of Municipal Acts and Land Revenue Codes, revenue authorities issue **Form 12 notices** and can attach rental bank accounts or seal premises (as seen in Parcel \`UL005\` & \`UL009\`).`,
+      parcel_ids: ["UL005", "UL009"],
+      tool_used: "tax_recovery_jurisprudence",
+      risk_score: 60,
+      risk_level: "HIGH_RISK",
+      is_safe: false,
+      anomalies: ["Unpaid taxes lead to attachment and prevent lawful property registration."]
+    };
+  }
+
+  // Karjat Cadastral Study Area & Registry Overview
+  if (qLower.includes("karjat") || qLower.includes("raigad") || qLower.includes("study area") || qLower.includes("location") || qLower.includes("village")) {
+    return {
+      answer: `### 📍 LandStack Karjat Cadastral Study Area Intelligence\n\nThe **Karjat Study Area** (Taluk Karjat, District Raigad, Maharashtra / Kengeri Jurisdiction) comprises **20 Geo-Referenced Cadastral Parcels** unified across Satellite GIS and Legal Records:\n\n• **Total Survey Extent**: Over 54.80 surveyed acres mapped in PostGIS.\n• **Active Court Stays**: 4 Flagged Parcels (\`UL003\`, \`UL006\`, \`UL008\`, \`UL012\`) with civil injunctions.\n• **Tax Default Overdues**: 3 Flagged Parcels (\`UL005\`, \`UL009\`, \`UL014\`) totaling ₹2.73 Lakhs in revenue arrears.\n• **Commercial Bank Mortgages**: 3 Flagged Parcels (\`UL004\`, \`UL007\`, \`UL011\`) totaling ₹12.50 Crores in secured loans.\n• **Area Discrepancies**: 3 Flagged Parcels (\`UL002\`, \`UL010\`, \`UL015\`) with satellite vs deed acreage mismatches.\n• **100% Clean Verified Parcels**: 4 Benchmark Parcels (\`UL001\`, \`UL013\`, \`UL016\`, \`UL020\`) safe for immediate transaction.`,
+      parcel_ids: ["UL001", "UL003", "UL005", "UL004"],
+      tool_used: "karjat_registry_engine",
+      risk_score: 25,
+      risk_level: "LOW_RISK",
+      is_safe: true,
+      anomalies: ["20 surveyed parcels actively monitored across Karjat cadastral zones."]
+    };
+  }
+
+  // Overall Statistics & Risk Counts
+  if (qLower.includes("how many") || qLower.includes("count") || qLower.includes("statistics") || qLower.includes("summary of risk") || qLower.includes("how much tax") || qLower.includes("highest risk")) {
+    return {
+      answer: `### 📊 LandStack Cadastral Registry Statistics & Risk Distribution\n\nAcross the 20 monitored cadastral parcels in the registry:\n\n| Classification | Parcel Count | Representative ULPINs | Dominant Risk Factor |\n| :--- | :--- | :--- | :--- |\n| 🚨 **BLOCKED (Score: 85-95)** | **4 Parcels** | \`UL003\`, \`UL006\`, \`UL008\`, \`UL012\` | Active Order 39 Stays, NGT Injunctions, Sec 145 CrPC |\n| 🟠 **HIGH_RISK (Score: 60-70)** | **3 Parcels** | \`UL002\`, \`UL005\`, \`UL010\` | Area Mismatch (+0.40 ac), Tax Default (₹85.8K), Stream Erosion |\n| 🟡 **MODERATE (Score: 40-50)** | **3 Parcels** | \`UL004\`, \`UL007\`, \`UL011\` | Commercial Bank Mortgages (SBI, Canara, HDFC) |\n| 🟢 **CLEAN (Score: 0)** | **4 Parcels** | \`UL001\`, \`UL013\`, \`UL016\`, \`UL020\` | 100% Clean Title, Zero Stays, Form 16 Nil EC, Tax Paid |\n\n• **Highest Risk Parcel**: \`UL003\` (Score: 95/100, Ramesh Gowda) — Active partition injunction in Senior Civil Court (\`OS/442/2023\`).\n• **Total Cumulative Bank Debt**: ₹12.50 Crores across 3 parcels.\n• **Total Unpaid Tax Arrears**: ₹2,73,300.00 across 3 parcels.`,
+      parcel_ids: ["UL003", "UL005", "UL004", "UL001"],
+      tool_used: "registry_analytics_engine",
+      risk_score: 25,
+      risk_level: "LOW_RISK",
+      is_safe: true,
+      anomalies: ["Comprehensive risk distribution generated across 20 monitored registry parcels."]
+    };
+  }
+
   // SVAMITVA Scheme & DILRMP
   if (qLower.includes("svamitva") || qLower.includes("dilrmp") || qLower.includes("property card") || qLower.includes("drone survey")) {
     return {
@@ -1104,7 +1195,77 @@ Here is the cross-registry audit summary for all benchmark ULPINs in the LandSta
   }
 
   // ── 5. Universal Semantic Analysis for Arbitrary Questions ──
-  // If the query is an open-ended question about anything related to land, property, finance, law, or society:
+  // A. Cadastral GIS, Satellite Mapping & PostGIS
+  const isGIS = ["gis", "postgis", "cadastral", "satellite", "coordinates", "epsg", "polygon", "shapefile", "geojson", "remote sensing", "drone mapping"].some(k => qLower.includes(k));
+  if (isGIS) {
+    return {
+      answer: `### 🛰️ Cadastral GIS & Geospatial Land Intelligence\n\n• **Cadastral Mapping**: Digital geo-spatial delineation of legal property boundaries tied to global spatial coordinate reference systems (EPSG:4326 WGS84 and EPSG:3857 Web Mercator).\n• **PostGIS Engine**: Enables enterprise spatial queries (\`ST_Area\`, \`ST_Intersects\`, \`ST_Overlaps\`, \`ST_Buffer\`) to dynamically verify whether physical satellite fences match legal RoR acreages.\n• **High-Resolution Satellite Verification**: Harmonizes multi-spectral satellite imagery with cadastral vector maps to detect fence extensions, unrecorded roads, and water body buffer encroachments in real time.\n• **LandStack Implementation**: In LandStack, satellite GIS calculations immediately flag area variances exceeding ±2% allowable revenue margin (as detected on Parcel \`UL002\` with a +0.40 acre discrepancy).`,
+      parcel_ids: ["UL002"],
+      tool_used: "geospatial_gis_engine",
+      risk_score: 10,
+      risk_level: "LOW_RISK",
+      is_safe: true,
+      anomalies: ["Satellite GIS polygon analysis verified against cadastral geometry."]
+    };
+  }
+
+  // B. Property Tax Payment & Clearance Procedures
+  const isTaxProcedural = ["how to pay tax", "where to pay tax", "tax receipt", "tax calculation", "pay property tax", "online tax payment", "tax rebate"].some(k => qLower.includes(k));
+  if (isTaxProcedural) {
+    return {
+      answer: `### 💳 Property Tax Payment & Clearance Procedure\n\n• **Assessment Method**: Calculated under the **Unit Area Value (UAV)** system or **Capital Value** system based on property location, usage category (residential/commercial), built-up area, and age of structure.\n• **Payment Channels**: Citizens can pay online via state municipal portals (such as Mahavitaran/Aaple Sarkar in Maharashtra or BBMP Citizen Portal in Karnataka) or offline at designated bank branches and citizen service centers.\n• **Clearance Proof**: Upon payment, an official **Tax Paid Receipt (Form 16)** containing SAS (Self-Assessment Scheme) application number is issued.\n• **Importance in Conveyance**: Clear tax receipts for the current financial cycle are mandatory before deed registration at the Sub-Registrar Office.`,
+      parcel_ids: ["UL001"],
+      tool_used: "tax_procedure_engine",
+      risk_score: 0,
+      risk_level: "CLEAN",
+      is_safe: true,
+      anomalies: []
+    };
+  }
+
+  // C. Mutation Application & Approval Procedure
+  const isMutationProcedural = ["how to apply mutation", "mutation process", "time for mutation", "apply for mutation", "mutation documents", "mutation status"].some(k => qLower.includes(k));
+  if (isMutationProcedural) {
+    return {
+      answer: `### 🔄 Mutation Application & Statutory Timeline\n\n• **Step 1 - Application**: Upon registered sale deed execution, apply online via the state revenue portal (e.g. Mahabhumi in Maharashtra, Bhoomi in Karnataka) with copies of the registered deed, latest EC, and tax receipt.\n• **Step 2 - Public Notice**: The Tahsildar / Revenue Inspector issues a statutory Form 21 public notice with a **30-day objection period** served to interested parties and family coparceners.\n• **Step 3 - Field Verification**: Village Administrative Officer (Talathi / Patwari) conducts spot inquiry and verifies boundaries.\n• **Step 4 - RoR Update**: If no civil disputes or stay orders exist, the Taluk Revenue Officer sanctions the mutation, and the buyer's name is entered in Column 9 of the RoR (7/12 / Pahani).`,
+      parcel_ids: [],
+      tool_used: "mutation_procedure_engine",
+      risk_score: 0,
+      risk_level: "CLEAN",
+      is_safe: true,
+      anomalies: []
+    };
+  }
+
+  // D. Bank Mortgage Discharge & Release Deed Procedure
+  const isMortgageProcedural = ["clear mortgage", "release deed", "bank noc", "remove bank lien", "reconveyance", "discharge deed"].some(k => qLower.includes(k));
+  if (isMortgageProcedural) {
+    return {
+      answer: `### 🏦 Mortgage Clearance & Release Deed Procedure\n\nWhen a property loan is fully repaid, follow this procedure to eliminate commercial liens:\n\n1. **No Dues Certificate (NDC / NOC)**: Obtain a formal written statement from the bank confirming zero outstanding balance.\n2. **Return of Original Title Deeds**: Inspect and retrieve all original mother deeds, parent documents, and sanction letters deposited with the bank.\n3. **Registered Deed of Reconveyance / Release Deed**: The bank manager executes and registers a Deed of Release with the Sub-Registrar under Section 58 of Transfer of Property Act.\n4. **Update Encumbrance Certificate (Form 16)**: Apply for a fresh EC to confirm that the bank charge has been discharged and the title reflects nil encumbrance (as in benchmark Parcel \`UL001\`).`,
+      parcel_ids: ["UL004"],
+      tool_used: "mortgage_discharge_engine",
+      risk_score: 10,
+      risk_level: "LOW_RISK",
+      is_safe: true,
+      anomalies: []
+    };
+  }
+
+  // E. Court Stay Order Vacation & Injunction Defense
+  const isCourtProcedural = ["vacate stay", "remove stay", "challenge injunction", "how to cancel stay", "order 39 rule 4"].some(k => qLower.includes(k));
+  if (isCourtProcedural) {
+    return {
+      answer: `### ⚖️ Legal Procedure to Vacate Court Stay Orders (Order 39 Rule 4 CPC)\n\n• **Order 39 Rule 4 CPC Application**: If an ex-parte temporary injunction was obtained by a plaintiff through misrepresentation or suppression of material facts, the defendant can file an application to discharge, vary, or vacate the stay.\n• **Grounds for Vacation**:\n  1. Lack of prima facie title or absence of balance of convenience in plaintiff's favour.\n  2. Failure of plaintiff to demonstrate irreparable injury.\n  3. Non-compliance with Order 39 Rule 3 proviso (failure to supply suit papers within 24 hours of ex-parte stay).\n• **Appeal Remedy**: If the civil court refuses to vacate, an **Appeal from Order (AO)** lies before the District Court or High Court under Order 43 Rule 1(r) of the Code of Civil Procedure.`,
+      parcel_ids: ["UL003"],
+      tool_used: "court_procedure_engine",
+      risk_score: 95,
+      risk_level: "BLOCKED",
+      is_safe: false,
+      anomalies: ["Order 39 Rule 4 CPC application required to seek vacation of active judicial restraint."]
+    };
+  }
+
+  // F. Universal Semantic Analysis for Arbitrary Questions
   const isFinance = ["price", "value", "cost", "loan", "interest", "bank", "cibil", "credit", "money", "rupees"].some(k => qLower.includes(k));
   const isLegal = ["law", "legal", "court", "judge", "act", "section", "suit", "police", "crime", "illegal", "fir", "decree", "appeal"].some(k => qLower.includes(k));
   const isGov = ["government", "officer", "tahsildar", "collector", "patwari", "village", "taluk", "panchayat", "corporation"].some(k => qLower.includes(k));
@@ -1124,7 +1285,7 @@ Here is the cross-registry audit summary for all benchmark ULPINs in the LandSta
   }
 
   return {
-    answer: `### 🏛️ LandStack AI Advisory: "${q}"\n\nRegarding your inquiry:\n\n${contextSummary}\n\n• **Core Recommendation**:\n  1. Always inspect primary revenue records (RoR / 7/12 / Pahani) and match survey boundaries with physical GIS satellite coordinates.\n  2. Verify that there are no active judicial stay orders (Order 39 CPC) or registered bank mortgages (Section 58 Transfer of Property Act).\n  3. Obtain official tax paid receipts and an updated 30-year Encumbrance Certificate (Form 15/16) from the Sub-Registrar.\n\n• **Benchmark LandStack Registry Quick Reference**:\n  - **UL001 (Ravi Kumar)**: Clean Title (3.20 acres, Tax Paid, Zero Stays)\n  - **UL002 (Lakshmi Devi)**: Area Mismatch (+0.40 ac GIS vs RoR discrepancy)\n  - **UL003 (Ramesh Gowda)**: Judicial Stay Order (\`OS/442/2023\`) — **BLOCKED**\n  - **UL004 (Venkatesh Prasad)**: Active SBI Mortgage (₹4.50 Crore)\n  - **UL005 (Anand Rao)**: Property Tax Defaulted (₹78,000 arrears)\n  - **UL006 (Horizon Logistics)**: Unauthorized Green Belt Warehouse\n\n💡 *Feel free to ask specific follow-up questions, e.g., "Audit UL003", "Who has court cases?", or "How to apply for mutation online".*`,
+    answer: `### 🏛️ LandStack AI Advisory: "${q}"\n\nRegarding your inquiry:\n\n${contextSummary}\n\n• **Core Legal Recommendation**:\n  1. Always inspect primary revenue records (RoR / 7/12 / Pahani) and match survey boundaries with physical GIS satellite coordinates.\n  2. Verify that there are no active judicial stay orders (Order 39 CPC) or registered bank mortgages (Section 58 Transfer of Property Act).\n  3. Obtain official tax paid receipts and an updated 30-year Encumbrance Certificate (Form 15/16) from the Sub-Registrar.\n\n• **Benchmark LandStack Registry Quick Reference**:\n  - **UL001 (Ravi Kumar)**: Clean Title (3.20 acres, Tax Paid, Zero Stays)\n  - **UL002 (Lakshmi Devi)**: Area Mismatch (+0.40 ac GIS vs RoR discrepancy)\n  - **UL003 (Ramesh Gowda)**: Judicial Stay Order (\`OS/442/2023\`) — **BLOCKED**\n  - **UL004 (Venkatesh Prasad)**: Active SBI Mortgage (₹4.50 Crore)\n  - **UL005 (Anand Rao)**: Property Tax Defaulted (₹78,000 arrears)\n  - **UL006 (Horizon Logistics)**: Unauthorized Green Belt Warehouse\n\n💡 *Feel free to ask specific follow-up questions, e.g., "Audit UL003", "Who has court cases?", or "How to apply for mutation online".*`,
     parcel_ids: [],
     tool_used: "intelligent_semantic_engine",
     risk_score: 10,
