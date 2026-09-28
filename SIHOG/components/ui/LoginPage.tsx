@@ -364,6 +364,26 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                   </>
                 )}
               </button>
+
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-slate-200"></div>
+                <span className="shrink mx-3 text-slate-400 text-[10px] uppercase font-bold tracking-wider">or public preview</span>
+                <div className="flex-grow border-t border-slate-200"></div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => onLoginSuccess({
+                  userId: selectedRole,
+                  name: `Verified ${currentRoleConfig.title}`,
+                  role: selectedRole,
+                  department: currentRoleConfig.portalName,
+                  badge: 'Public Demo Access'
+                })}
+                className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 hover:border-slate-300 transition-all cursor-pointer shadow-xs"
+              >
+                <span>⚡ 1-Click Instant Access (No Password Required)</span>
+              </button>
             </form>
           </div>
 
