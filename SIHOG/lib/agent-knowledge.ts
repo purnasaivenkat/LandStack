@@ -238,13 +238,54 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
 
   if (isCourtQuery && !matchedParcel) {
     return {
-      answer: `### ⚖️ Active Judicial Court Stays & Litigation Registry Report\n\nFound **1 Land Parcel** with an active Civil Court Injunction & Stay Order in the registry:\n\n• **Parcel \`UL003\`** (Survey No: \`105/1\` in Kengeri, Bengaluru Urban / Karjat)\n  - **Primary Landowner**: **Ramesh Gowda** (Khata: \`KH-2019-3312\`)\n  - **Court / Forum**: Senior Civil Court, Bengaluru (Case No: \`OS/442/2023\`)\n  - **Suit Type**: Partition & Title Injunction Suit\n  - **Parties**: Manjunath Gowda vs Ramesh Gowda & Sub-Registrar\n  - **Stay Order Status**: 🚨 **STAY ORDER ACTIVE (Order 39 CPC Injunction)**\n  - **Judicial Restraint**: Express legal restraint prohibiting sale, conveyance, gift, mortgage, or mutation pending final partition decree.\n  - **Risk Assessment**: 🔴 **BLOCKED (Risk Score: 95/100)** — Title conveyance is prohibited by court injunction!\n\n*(All other benchmark parcels — UL001, UL002, UL004, UL005, UL006 — have zero active litigation.)*`,
-      parcel_ids: ["UL003"],
+      answer: `### ⚖️ Active Judicial Court Stays & Litigation Registry Report
+
+Found **4 Land Parcels** with active judicial restraint orders, civil injunctions, or tribunal litigations across the LandStack Cadastral Registry:
+
+• **1. Parcel \`UL003\`** (Survey No: \`105/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Ramesh Gowda** (Khata: \`KH-2019-3312\`, 4.50 acres)
+  - **Court / Forum**: Senior Civil Court, Bengaluru (Case No: \`OS/442/2023\`)
+  - **Suit Type**: Partition & Title Injunction Suit (*Manjunath Gowda vs Ramesh Gowda & Sub-Registrar*)
+  - **Judicial Order**: 🚨 **Order 39 Rules 1 & 2 CPC Temporary Injunction** restraining sale, conveyance, or mutation pending trial.
+  - **Risk Assessment**: 🔴 **BLOCKED (Score: 95/100)** — Title conveyance is prohibited by court injunction!
+
+• **2. Parcel \`UL006\`** (Survey No: \`108/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Horizon Logistics Pvt Ltd** (Khata: \`KH-2023-9901\`, 1.80 acres)
+  - **Court / Forum**: National Green Tribunal (Southern Zone, Case No: \`OA/219/2023/SZ\`)
+  - **Suit Type**: Environmental & Zoning Public Interest Litigation (*Citizen Forum vs Horizon Logistics & State*)
+  - **Judicial Order**: 🚨 **NGT Stop-Work & Demolition Injunction** for unauthorized commercial warehouse in Green Belt.
+  - **Risk Assessment**: 🔴 **BLOCKED (Score: 85/100)** — Commercial operation halted under judicial order.
+
+• **3. Parcel \`UL008\`** (Survey No: \`112/3\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **K. Suresh Kumar & Co-owners** (Khata: \`KH-2018-9182\`, 3.10 acres)
+  - **Court / Forum**: District & Sessions Court (Case No: \`RA/118/2022\` - Regular Appeal)
+  - **Suit Type**: Ancestral Succession & Co-Parcenary Rights Dispute (*Geetha Kumari vs K. Suresh Kumar*)
+  - **Judicial Order**: 🚨 **High Court Interim Status Quo Order** (Lis Pendens under Section 52 Transfer of Property Act).
+  - **Risk Assessment**: 🔴 **BLOCKED (Score: 90/100)** — Alienation restrained pending appellate decree.
+
+• **4. Parcel \`UL012\`** (Survey No: \`125/2\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Maheshwari Developers** (Khata: \`KH-2022-1049\`, 2.65 acres)
+  - **Court / Forum**: Karnataka Appellate Tribunal / Revenue Tribunal (Case No: \`REV/AP/88/2024\`)
+  - **Suit Type**: Public Cart Track & Boundary Encroachment Dispute (*Gram Panchayat vs Maheshwari Developers*)
+  - **Judicial Order**: ⚠️ **Section 145 CrPC Executive Magistrate Restraint** on fencing and excavation.
+  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 75/100)** — Revenue boundary settlement pending.
+
+#### 📋 Judicial Litigation Cross-Registry Summary Table:
+
+| ULPIN | Primary Owner | Survey No | Court / Forum | Case Number | Judicial Order | Risk Tier |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| \`UL003\` | Ramesh Gowda | \`105/1\` | Senior Civil Court, Bengaluru | \`OS/442/2023\` | Order 39 CPC Injunction | **BLOCKED** |
+| \`UL006\` | Horizon Logistics | \`108/1\` | National Green Tribunal (SZ) | \`OA/219/2023\` | Stop-Work Injunction | **BLOCKED** |
+| \`UL008\` | K. Suresh Kumar | \`112/3\` | District & Sessions Court | \`RA/118/2022\` | Interim Status Quo | **BLOCKED** |
+| \`UL012\` | Maheshwari Dev | \`125/2\` | Revenue Appellate Tribunal | \`REV/88/2024\` | Sec 145 CrPC Restraint | **HIGH_RISK** |
+
+💡 *Regulatory Note: Under Section 52 of the Transfer of Property Act (Doctrine of Lis Pendens), any property currently under active litigation cannot be transferred or mortgaged to affect the rights of parties to the suit.*`,
+      parcel_ids: ["UL003", "UL006", "UL008", "UL012"],
       tool_used: "court_registry_engine",
       risk_score: 95,
       risk_level: "BLOCKED",
       is_safe: false,
-      anomalies: ["Active Order 39 stay order operating against alienation for UL003."]
+      anomalies: ["Active judicial injunctions operating across 4 flagged land parcels in the registry."]
     };
   }
 
@@ -257,13 +298,44 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
 
   if (isTaxDefaulterQuery && !matchedParcel) {
     return {
-      answer: `### ⚠️ Tax Arrears & Defaulters Registry Report\n\nFound **1 Parcel** with serious overdue property taxes and revenue defaults:\n\n• **Parcel \`UL005\`** (Survey No: \`107/1\` in Kengeri, Bengaluru Urban / Karjat)\n  - **Primary Landowner**: **Anand Rao** (Khata: \`KH-2023-4412\`)\n  - **Tax Status**: ⚠️ **DEFAULTED (3 Consecutive Financial Years Overdue)**\n  - **Outstanding Arrears**: **₹78,000.00**\n  - **Penalties & Statutory Cess**: ₹7,800.00 accrued\n  - **Total Demand**: ₹85,800.00\n  - **Administrative Action**: Form 12 Revenue Recovery Notice issued by Revenue Inspector.\n  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 60/100)** — Municipal tax clearance certificate (Form 16) mandatory before registration.`,
-      parcel_ids: ["UL005"],
+      answer: `### ⚠️ Tax Arrears & Defaulters Registry Report
+
+Found **3 Land Parcels** with significant overdue property taxes and revenue default recovery notices in the registry:
+
+• **1. Parcel \`UL005\`** (Survey No: \`107/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Anand Rao** (Khata: \`KH-2023-4412\`, 2.40 acres)
+  - **Tax Status**: ⚠️ **DEFAULTED (3 Consecutive Financial Years Overdue)**
+  - **Principal Arrears**: **₹78,000.00** | Penalties & Statutory Cess: **₹7,800.00** (Total Demand: ₹85,800.00)
+  - **Recovery Action**: Form 12 Revenue Recovery Notice issued by Revenue Inspector prior to attachment.
+  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 60/100)** — Municipal tax clearance (Form 16) mandatory before deed registration.
+
+• **2. Parcel \`UL009\`** (Survey No: \`114/2\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Balaji Industrial Warehousing** (Khata: \`KH-2021-0081\`, 3.50 acres)
+  - **Tax Status**: ⚠️ **DEFAULTED (Commercial Non-Agricultural Property Tax)**
+  - **Outstanding Arrears**: **₹1,42,000.00** (Cumulative dues over 2 financial cycles)
+  - **Recovery Action**: Section 104 Municipal Corporation Attachment Warning Notice served.
+  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 65/100)** — Revenue attachment pending treasury clearance.
+
+• **3. Parcel \`UL014\`** (Survey No: \`129/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Pradeep Hegde** (Khata: \`KH-2020-5519\`, 1.90 acres)
+  - **Tax Status**: ⚠️ **PARTIAL_DEFAULT (Panchayat Development Tax)**
+  - **Outstanding Arrears**: **₹45,500.00**
+  - **Recovery Action**: Form 9 demand notice issued by Gram Panchayat Secretary.
+  - **Risk Assessment**: 🟡 **MODERATE_RISK (Score: 40/100)** — Clearance required before mutation.
+
+#### 📋 Property Tax Defaulters Summary Table:
+
+| ULPIN | Primary Owner | Survey No | Default Duration | Total Dues | Recovery Stage | Risk Tier |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| \`UL005\` | Anand Rao | \`107/1\` | 3 Years Overdue | **₹85,800.00** | Form 12 Notice | **HIGH_RISK** |
+| \`UL009\` | Balaji Warehousing | \`114/2\` | 2 Years Overdue | **₹1,42,000.00** | Sec 104 Notice | **HIGH_RISK** |
+| \`UL014\` | Pradeep Hegde | \`129/1\` | 18 Months Overdue | **₹45,500.00** | Form 9 Demand | **MODERATE** |`,
+      parcel_ids: ["UL005", "UL009", "UL014"],
       tool_used: "tax_registry_engine",
-      risk_score: 60,
+      risk_score: 65,
       risk_level: "HIGH_RISK",
       is_safe: false,
-      anomalies: ["Unpaid property tax arrears for UL005 exceeding ₹78,000."]
+      anomalies: ["Property tax arrears exceeding ₹2.7 Lakhs recorded across 3 flagged parcels."]
     };
   }
 
@@ -275,13 +347,44 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
 
   if (isEncumbranceQuery && !matchedParcel) {
     return {
-      answer: `### 🏦 Commercial Bank Mortgages & Liens Registry Report\n\nFound **1 Parcel** with registered financial charges under Section 58 Transfer of Property Act:\n\n• **Parcel \`UL004\`** (Survey No: \`106/1\` in Kengeri, Bengaluru Urban / Karjat)\n  - **Primary Landowner**: **Venkatesh Prasad** (Khata: \`KH-2022-7719\`)\n  - **Mortgagee Bank**: **State Bank of India (Commercial Branch)**\n  - **Registered Mortgage Amount**: **₹4,50,00,000 (₹4.50 Crore)**\n  - **Loan Account**: \`SBI-AGR-2022-8819\`\n  - **Encumbrance Status**: 🏦 **ACTIVE_LIEN**\n  - **EC Search Result**: Form 15 active charge registered with Sub-Registrar Office.\n  - **Risk Assessment**: 🟡 **MODERATE_RISK (Score: 45/100)** — Bank No-Objection Certificate (NOC) and deed of release required for clear conveyance.`,
-      parcel_ids: ["UL004"],
+      answer: `### 🏦 Commercial Bank Mortgages & Liens Registry Report
+
+Found **3 Land Parcels** with active registered financial charges under Section 58 Transfer of Property Act in the registry:
+
+• **1. Parcel \`UL004\`** (Survey No: \`106/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Venkatesh Prasad** (Khata: \`KH-2022-7719\`, 1.50 acres)
+  - **Mortgagee Bank**: **State Bank of India (Commercial Branch)**
+  - **Mortgage Amount**: **₹4,50,00,000 (₹4.50 Crore)** | Account: \`SBI-AGR-2022-8819\`
+  - **Encumbrance Status**: 🏦 **ACTIVE_LIEN** (Form 15 registered charge)
+  - **Risk Assessment**: 🟡 **MODERATE_RISK (Score: 45/100)** — Bank NOC & Deed Discharge mandatory for clean title.
+
+• **2. Parcel \`UL007\`** (Survey No: \`109/2\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Sri Krishna Agro Farms Pvt Ltd** (Khata: \`KH-2021-3810\`, 5.20 acres)
+  - **Mortgagee Bank**: **Canara Bank (Agri Development Branch)**
+  - **Mortgage Amount**: **₹1,80,00,000 (₹1.80 Crore)** | Account: \`CAN-AGR-2021-1044\`
+  - **Encumbrance Status**: 🏦 **ACTIVE_LIEN** (Kisan Term Loan Mortgage)
+  - **Risk Assessment**: 🟡 **MODERATE_RISK (Score: 40/100)** — Bank clearance certificate required.
+
+• **3. Parcel \`UL011\`** (Survey No: \`121/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Apex Logistics Infrastructure** (Khata: \`KH-2023-8822\`, 4.00 acres)
+  - **Mortgagee Bank**: **HDFC Bank (Wholesale Banking Division)**
+  - **Mortgage Amount**: **₹6,20,00,000 (₹6.20 Crore)** | Account: \`HDFC-WBO-2023-9901\`
+  - **Encumbrance Status**: 🏦 **ACTIVE_LIEN** (Registered equitable mortgage on title deeds)
+  - **Risk Assessment**: 🟡 **MODERATE_RISK (Score: 50/100)** — High-value corporate lien registered.
+
+#### 📋 Bank Mortgages Cross-Registry Summary Table:
+
+| ULPIN | Primary Owner | Survey No | Mortgagee Bank | Registered Amount | Encumbrance Status | Risk Tier |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| \`UL004\` | Venkatesh Prasad | \`106/1\` | State Bank of India | **₹4.50 Crore** | Active Commercial Lien | **MODERATE** |
+| \`UL007\` | Sri Krishna Agro | \`109/2\` | Canara Bank | **₹1.80 Crore** | Agri Term Loan Lien | **MODERATE** |
+| \`UL011\` | Apex Logistics | \`121/1\` | HDFC Bank | **₹6.20 Crore** | Corporate Credit Lien | **MODERATE** |`,
+      parcel_ids: ["UL004", "UL007", "UL011"],
       tool_used: "encumbrance_registry_engine",
-      risk_score: 45,
+      risk_score: 50,
       risk_level: "MODERATE_RISK",
       is_safe: false,
-      anomalies: ["Active registered bank mortgage lien of ₹4.5 Crore for UL004."]
+      anomalies: ["Cumulative registered bank mortgage debt exceeding ₹12.50 Crores across 3 parcels."]
     };
   }
 
@@ -293,13 +396,44 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
 
   if (isAreaMismatchQuery && !matchedParcel) {
     return {
-      answer: `### 📐 Satellite GIS vs Legal Title Area Discrepancy Report\n\nFound **1 Parcel** with significant area mismatch between satellite cadastral boundaries and revenue deeds:\n\n• **Parcel \`UL002\`** (Survey No: \`104/2\` in Kengeri, Bengaluru Urban / Karjat)\n  - **Primary Landowner**: **Smt. Lakshmi Devi** (Khata: \`KH-2020-5621\`)\n  - **Physical Satellite GIS Area**: **3.20 acres**\n  - **Registered Legal RoR Area**: **2.80 acres**\n  - **Area Discrepancy**: ⚠️ **+0.40 acres (+14.3% variance)**\n  - **Probable Cause**: Physical boundary expansion into unrecorded common path or historical chain survey error.\n  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 65/100)** — Ground boundary resurvey required before partition or deed execution.`,
-      parcel_ids: ["UL002"],
+      answer: `### 📐 Satellite GIS vs Legal Title Area Discrepancy Report
+
+Found **3 Land Parcels** with significant spatial mismatches between satellite cadastral boundaries and revenue deeds:
+
+• **1. Parcel \`UL002\`** (Survey No: \`104/2\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Smt. Lakshmi Devi** (Khata: \`KH-2020-5621\`)
+  - **Satellite GIS Area**: **3.20 acres** vs **RoR Legal Deed**: **2.80 acres**
+  - **Area Discrepancy**: ⚠️ **+0.40 acres (+14.3% variance)**
+  - **Cause**: Physical fence expansion into unrecorded common cart path.
+  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 65/100)** — Ground resurvey required before deed execution.
+
+• **2. Parcel \`UL010\`** (Survey No: \`115/1\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Shivaram Patil** (Khata: \`KH-2019-7711\`)
+  - **Satellite GIS Area**: **3.45 acres** vs **RoR Legal Deed**: **4.10 acres**
+  - **Area Discrepancy**: ⚠️ **-0.65 acres (-15.8% deficit)**
+  - **Cause**: Seasonal nala / stream buffer encroachment eroding surveyed boundary.
+  - **Risk Assessment**: 🟠 **HIGH_RISK (Score: 70/100)** — Substantial acreage deficit recorded.
+
+• **3. Parcel \`UL015\`** (Survey No: \`130/2\` | Kengeri, Bengaluru Urban / Karjat)
+  - **Primary Landowner**: **Reliance Bio-Agro** (Khata: \`KH-2022-6644\`)
+  - **Satellite GIS Area**: **2.90 acres** vs **RoR Legal Deed**: **2.60 acres**
+  - **Area Discrepancy**: ⚠️ **+0.30 acres (+11.5% variance)**
+  - **Cause**: Historical chain survey curvature distortion along boundary hedge.
+  - **Risk Assessment**: 🟡 **MODERATE_RISK (Score: 50/100)** — Tatkal Phodi boundary verification advised.
+
+#### 📋 Spatial Discrepancy Summary Table:
+
+| ULPIN | Primary Owner | Survey No | GIS Area | Deed Area | Variance | Probable Cause |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| \`UL002\` | Smt. Lakshmi Devi | \`104/2\` | 3.20 ac | 2.80 ac | **+0.40 ac (+14.3%)** | Fence expansion into cart path |
+| \`UL010\` | Shivaram Patil | \`115/1\` | 3.45 ac | 4.10 ac | **-0.65 ac (-15.8%)** | Stream buffer deficit |
+| \`UL015\` | Reliance Bio-Agro | \`130/2\` | 2.90 ac | 2.60 ac | **+0.30 ac (+11.5%)** | Chain survey curvature |`,
+      parcel_ids: ["UL002", "UL010", "UL015"],
       tool_used: "spatial_discrepancy_engine",
       risk_score: 65,
       risk_level: "HIGH_RISK",
       is_safe: false,
-      anomalies: ["GIS boundary area (3.20 Ac) exceeds RoR deed area (2.80 Ac) by 0.40 acres."]
+      anomalies: ["Spatial boundary variances exceeding allowable 2% revenue margin across 3 parcels."]
     };
   }
 
@@ -311,13 +445,44 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
 
   if (isCleanQuery && !matchedParcel) {
     return {
-      answer: `### 🟢 Clean Titles & Safe Transaction Parcels\n\nFound **1 Benchmark Clean Parcel** ready for immediate lawful transaction:\n\n• **Parcel \`UL001\`** (Survey No: \`104/1\` in Kengeri, Bengaluru Urban)\n  - **Primary Landowner**: **Ravi Kumar** (Khata: \`KH-2021-8901\`)\n  - **Area Verification**: Satellite GIS **3.20 acres** = RoR Title **3.20 acres** (✅ 100% Matching)\n  - **Civil Court Litigation**: ✅ None active (Nil stays)\n  - **Bank Mortgages**: ✅ Nil Encumbrance Certificate (Form 16)\n  - **Property Tax**: ✅ Fully Paid (Receipt: \`TAX-REC-2024-0981\`)\n  - **Risk Assessment**: 🟢 **CLEAN (Score: 0/100)** — Safe for immediate purchase, registration, and mutation.`,
-      parcel_ids: ["UL001"],
+      answer: `### 🟢 Clean Titles & Safe Transaction Parcels
+
+Found **4 Benchmark Clean Parcels** verified 100% compliant across revenue, cadastral, tax, and court registries:
+
+• **1. Parcel \`UL001\`** (Survey No: \`104/1\` | Kengeri, Bengaluru Urban)
+  - **Primary Landowner**: **Ravi Kumar** (Khata: \`KH-2021-8901\`, 3.20 acres)
+  - **Area Verification**: GIS **3.20 ac** = Deed **3.20 ac** (✅ 100% Matching)
+  - **Status**: ✅ Zero court stays | Form 16 Nil EC | Tax fully paid (₹4,950) | Clean Title.
+
+• **2. Parcel \`UL013\`** (Survey No: \`127/1\` | Kengeri, Bengaluru Urban)
+  - **Primary Landowner**: **Dr. Arvind Swamy** (Khata: \`KH-2022-9011\`, 2.50 acres)
+  - **Area Verification**: GIS **2.50 ac** = Deed **2.50 ac** (✅ 100% Matching)
+  - **Status**: ✅ Approved A-Khata layout | Nil bank mortgages | Tax paid in advance | Clean Title.
+
+• **3. Parcel \`UL016\`** (Survey No: \`132/1\` | Kengeri, Bengaluru Urban)
+  - **Primary Landowner**: **Sunita Deshmukh** (Khata: \`KH-2023-1104\`, 1.75 acres)
+  - **Area Verification**: GIS **1.75 ac** = Deed **1.75 ac** (✅ 100% Matching)
+  - **Status**: ✅ DC converted residential land | Clear 30-year mother deed | Clean Title.
+
+• **4. Parcel \`UL020\`** (Survey No: \`140/1\` | Kengeri, Bengaluru Urban)
+  - **Primary Landowner**: **Green Valley Orchard** (Khata: \`KH-2020-7700\`, 5.00 acres)
+  - **Area Verification**: GIS **5.00 ac** = Deed **5.00 ac** (✅ 100% Matching)
+  - **Status**: ✅ Clear agricultural title | Zero litigation | Organic farm plantation | Clean Title.
+
+#### 📋 Safe Conveyance Summary Table:
+
+| ULPIN | Primary Owner | Survey No | Acreage | Land Use | Title Verification | Risk Tier |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| \`UL001\` | Ravi Kumar | \`104/1\` | 3.20 ac | Dry Crop Agri | 100% Verified Matching | **CLEAN** |
+| \`UL013\` | Dr. Arvind Swamy | \`127/1\` | 2.50 ac | A-Khata Resi | Zero Liens / Clear Plan | **CLEAN** |
+| \`UL016\` | Sunita Deshmukh | \`132/1\` | 1.75 ac | DC Converted | 30-Yr Clear Title Chain | **CLEAN** |
+| \`UL020\` | Green Valley Orchard | \`140/1\` | 5.00 ac | Agri Orchard | Form 16 Nil EC Certified | **CLEAN** |`,
+      parcel_ids: ["UL001", "UL013", "UL016", "UL020"],
       tool_used: "clean_title_engine",
       risk_score: 0,
       risk_level: "CLEAN",
       is_safe: true,
-      anomalies: ["Clear Title: All registry records verified and matching."]
+      anomalies: ["All 4 parcels verified with zero discrepancies across all four government registries."]
     };
   }
 
