@@ -58,7 +58,7 @@ export interface TaxResponse {
   cess_amount?: number;
   penalties?: number;
   total_paid?: number;
-  payment_status: 'PAID' | 'OVERDUE' | 'PARTIAL' | 'EXEMPT';
+  payment_status: 'PAID' | 'OVERDUE' | 'PARTIAL' | 'EXEMPT' | 'DEFAULTED' | string;
   last_payment_date?: string;
   receipt_number?: string;
 }
@@ -70,8 +70,10 @@ export interface EncumbranceResponse {
   bank_name?: string;
   loan_account_no?: string;
   mortgage_amount?: number;
+  loan_amount?: number;
   date_of_mortgage?: string;
-  status: 'NONE' | 'ACTIVE_MORTGAGE' | 'DISCHARGED' | 'ATTACHMENT';
+  status?: 'NONE' | 'ACTIVE_MORTGAGE' | 'DISCHARGED' | 'ATTACHMENT' | string;
+  encumbrance_status?: string;
   ec_certificate_number?: string;
   period_from?: string;
   period_to?: string;
@@ -120,10 +122,12 @@ export interface CourtCaseResponse {
 }
 
 export interface AnomalyItem {
-  type: string;
+  type?: string;
+  anomaly_type?: string;
   category?: string;
-  severity: 'INFO' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
-  title: string;
+  department?: string;
+  severity: 'INFO' | 'LOW' | 'MEDIUM' | 'MODERATE' | 'HIGH' | 'CRITICAL' | string;
+  title?: string;
   description: string;
   gis_value?: string;
   record_value?: string;
@@ -133,11 +137,11 @@ export interface AnomalyItem {
 export interface RiskSummary {
   risk_score: number;
   score?: number;
-  risk_level: 'CLEAN' | 'LOW_RISK' | 'MODERATE_RISK' | 'HIGH_RISK' | 'BLOCKED';
+  risk_level: 'CLEAN' | 'LOW_RISK' | 'MODERATE_RISK' | 'HIGH_RISK' | 'BLOCKED' | string;
   level?: string;
-  anomaly_count: number;
+  anomaly_count?: number;
   is_safe_for_transaction: boolean;
-  summary: string;
+  summary?: string;
   anomalies?: AnomalyItem[];
 }
 

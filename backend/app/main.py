@@ -54,21 +54,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount all Domain Routers under /api
-app.include_router(auth_router, prefix=settings.API_V1_STR)
-app.include_router(parcels_router, prefix=settings.API_V1_STR)
-app.include_router(ror_router, prefix=settings.API_V1_STR)
-app.include_router(registration_router, prefix=settings.API_V1_STR)
-app.include_router(tax_router, prefix=settings.API_V1_STR)
-app.include_router(encumbrance_router, prefix=settings.API_V1_STR)
-app.include_router(land_use_router, prefix=settings.API_V1_STR)
-app.include_router(building_permits_router, prefix=settings.API_V1_STR)
-app.include_router(court_cases_router, prefix=settings.API_V1_STR)
-app.include_router(unified_profile_router, prefix=settings.API_V1_STR)
-app.include_router(area_analysis_router, prefix=settings.API_V1_STR)
-app.include_router(ai_agent_tools_router, prefix=settings.API_V1_STR)
+# Mount all Domain Routers under /api and /backend-api
+for prefix in [settings.API_V1_STR, "/backend-api"]:
+    app.include_router(auth_router, prefix=prefix)
+    app.include_router(parcels_router, prefix=prefix)
+    app.include_router(ror_router, prefix=prefix)
+    app.include_router(registration_router, prefix=prefix)
+    app.include_router(tax_router, prefix=prefix)
+    app.include_router(encumbrance_router, prefix=prefix)
+    app.include_router(land_use_router, prefix=prefix)
+    app.include_router(building_permits_router, prefix=prefix)
+    app.include_router(court_cases_router, prefix=prefix)
+    app.include_router(unified_profile_router, prefix=prefix)
+    app.include_router(area_analysis_router, prefix=prefix)
+    app.include_router(ai_agent_tools_router, prefix=prefix)
 
 @app.get("/api/status", summary="LandStack API Health and System Status")
+@app.get("/backend-api/status", summary="LandStack API Health and System Status")
+@app.get("/status", summary="LandStack API Health and System Status")
 def api_status():
     return {
         "status": "online",

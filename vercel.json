@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
-    "frontend": {
-      "root": "frontend",
-      "framework": "vite"
+    "web": {
+      "root": "SIHOG",
+      "framework": "nextjs"
     },
     "backend": {
       "root": "backend",
@@ -12,7 +12,7 @@
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/backend-api/(.*)",
       "destination": {
         "service": "backend"
       }
@@ -32,7 +32,7 @@
     {
       "source": "/(.*)",
       "destination": {
-        "service": "frontend"
+        "service": "web"
       }
     }
   ]
