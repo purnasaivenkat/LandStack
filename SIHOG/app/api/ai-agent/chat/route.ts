@@ -15,16 +15,25 @@ export async function POST(req: NextRequest) {
     // Optional LLM Call (Gemini) if API Key is configured in environment
     const apiKey = process.env.GEMINI_API_KEY || process.env.LLM_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (apiKey) {
-      try {
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{
-                parts: [{
-                  text: `You are the LandStack AI Land Governance Copilot for revenue officers and citizens in India.
+      const candidateModels = [
+        'gemini-3.1-flash-lite',
+        'gemini-3.1-flash-lite-preview',
+        'gemini-3.5-flash',
+        'gemini-flash-latest',
+        'gemini-2.5-flash'
+      ];
+
+      for (const model of candidateModels) {
+        try {
+          const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{
+                  parts: [{
+                    text: `You are the LandStack AI Land Governance Copilot for revenue officers and citizens in India.
 Answer the following question authoritatively, accurately, concisely, and factually using Indian land records, PostGIS cadastral systems, and Transfer of Property Act laws.
 
 Registry Benchmark Context:
@@ -36,26 +45,28 @@ Registry Benchmark Context:
 - UL006: Horizon Logistics, Survey 108/1, 1.80 ac, Zoning Violation (Agricultural Green Belt used for unauthorized warehouse). BLOCKED.
 
 Question: ${q}`
-                }]
-              }],
-              generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
-            })
+                  }]
+                }],
+                generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+              })
+            }
+          );
+
+          if (geminiRes.ok) {
+            const geminiData = await geminiRes.json();
+            const cand = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (cand && cand.trim()) {
+              const ulpinMatches = q.match(/UL00[1-6]|ULPIN[-A-Z0-9]+/gi);
+              return NextResponse.json({
+                answer: cand.trim(),
+                parcel_ids: ulpinMatches ? ulpinMatches.map((u: string) => u.toUpperCase()) : [],
+                sources: [`gemini_${model}`, "landstack_registry"]
+              });
+            }
           }
-        );
-        if (geminiRes.ok) {
-          const geminiData = await geminiRes.json();
-          const cand = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (cand) {
-            const ulpinMatches = q.match(/UL00[1-6]|ULPIN[-A-Z0-9]+/gi);
-            return NextResponse.json({
-              answer: cand.trim(),
-              parcel_ids: ulpinMatches ? ulpinMatches.map((u: string) => u.toUpperCase()) : [],
-              sources: ["gemini_ai_copilot", "landstack_registry"]
-            });
-          }
+        } catch (e) {
+          // try next model
         }
-      } catch (e) {
-        console.warn("External LLM fallback to LandStack knowledge engine:", e);
       }
     }
 
