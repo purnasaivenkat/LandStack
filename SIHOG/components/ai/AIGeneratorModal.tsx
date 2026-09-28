@@ -241,7 +241,7 @@ export const AIGeneratorModal: React.FC<AIGeneratorModalProps> = ({
         for (const ep of endpoints) {
           try {
             const controller = new AbortController();
-            const timer = setTimeout(() => controller.abort(), 3000);
+            const timer = setTimeout(() => controller.abort(), 12000);
             const chatRes = await fetch(ep, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },

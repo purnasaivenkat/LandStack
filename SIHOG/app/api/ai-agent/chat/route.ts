@@ -49,12 +49,12 @@ export async function POST(req: NextRequest) {
 Answer the following question authoritatively, accurately, concisely, and factually using Indian land records, PostGIS cadastral systems, and Transfer of Property Act laws.
 
 Registry Benchmark Context:
-- UL001: Ravi Kumar, Survey 104/1, 3.20 acres, Clean Title (Tax paid, nil encumbrance, nil court cases).
-- UL002: Smt. Lakshmi Devi, Survey 104/2, 3.20 ac GIS vs 2.80 ac RoR (+0.40 ac Area Mismatch). HIGH_RISK.
-- UL003: Ramesh Gowda, Survey 105/1, 4.50 ac, Active Court Stay Order (Case OS/442/2023, Senior Civil Court, Partition Suit). BLOCKED.
-- UL004: Venkatesh Prasad, Survey 106/1, 1.50 ac, Active SBI Mortgage ₹4.50 Crore. MODERATE_RISK.
-- UL005: Anand Rao, Survey 107/1, 2.40 ac, Property Tax DEFAULTED (₹78,000 arrears for 3 years). HIGH_RISK.
-- UL006: Horizon Logistics, Survey 108/1, 1.80 ac, Zoning Violation (Agricultural Green Belt used for unauthorized warehouse). BLOCKED.
+- Clean Titles (Safe): UL001 (Ravi Kumar, 104/1, 3.20 ac), UL013 (Dr. Arvind Swamy, 127/1, 2.50 ac, A-Khata), UL016 (Sunita Deshmukh, 132/1, 1.75 ac, DC Converted), UL020 (Green Valley Orchard, 140/1, 5.00 ac).
+- Court Stays / Litigation: UL003 (Ramesh Gowda, 105/1, 4.50 ac, Order 39 stay in OS/442/2023), UL006 (Horizon Logistics, 108/1, 1.80 ac, NGT stop-work order OA/219/2023), UL008 (K. Suresh Kumar, 112/3, 3.10 ac, High Court status quo in RA/118/2022), UL012 (Maheshwari Developers, 125/2, 2.10 ac, KAT stay REV/AP/88/2024 & Sec 145 CrPC restraint).
+- Tax Defaulters (Unpaid Arrears): UL005 (Anand Rao, 107/1, 2.40 ac, ₹78,000 arrears for 3 years, Form 12 notice), UL009 (Balaji Industrial Warehousing, 114/2, 3.50 ac, ₹1,42,000 commercial tax arrears, Sec 104 notice), UL014 (Pradeep Hegde, 129/1, 1.90 ac, ₹45,500 panchayat dues, Form 9 demand).
+- Bank Mortgages / Liens: UL004 (Venkatesh Prasad, 106/1, 1.50 ac, SBI ₹4.50 Cr commercial lien), UL007 (Sri Krishna Agro, 109/2, 5.20 ac, Canara Bank ₹1.80 Cr agri loan), UL011 (Apex Logistics, 121/1, 4.00 ac, HDFC Bank ₹6.20 Cr corporate lien).
+- Area Discrepancies: UL002 (Lakshmi Devi, 104/2, GIS 3.20 ac vs RoR 2.80 ac, +0.40 ac variance), UL010 (Shivaram Patil, 115/1, GIS 3.45 ac vs RoR 4.10 ac, -0.65 ac deficit), UL015 (Reliance Bio-Agro, 130/2, GIS 2.90 ac vs RoR 2.60 ac, +0.30 ac variance).
+- When asked for a category (e.g. who has court cases, who hasn't paid tax, who has mortgages, who has area mismatch), ALWAYS provide details for ALL matching parcels with structured tables rather than a single record.
 
 Question: ${q}`
                   }]

@@ -161,22 +161,291 @@ export const REGISTRY_PARCELS: Record<string, BenchmarkParcel> = {
     owner: "Horizon Logistics Pvt Ltd",
     father: "Rep by Director Anil Mehta",
     khata: "KH-2023-9901",
-    village: "Kengeri",
-    district: "Bengaluru Urban",
-    state: "Karnataka",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
     gis_acres: 1.80,
     doc_acres: 1.80,
     tax_status: "PAID",
     tax_due: 0,
     tax_paid: 12000,
     has_encumbrance: false,
-    has_court: false,
-    stay_active: false,
+    has_court: true,
+    case_number: "OA/219/2023/SZ",
+    court_name: "National Green Tribunal (SZ)",
+    suit_type: "Environmental & Green Belt Violation PIL",
+    parties: "Citizen Forum vs Horizon Logistics & State",
+    stay_active: true,
     zoning: "Green Belt (Agricultural Violator)",
     risk_level: "BLOCKED",
-    risk_score: 70,
+    risk_score: 85,
     is_safe: false,
     anomalies: ["Zoning Violation: Green Belt agricultural zoning illegally converted to commercial warehouse without DC conversion."]
+  },
+  UL007: {
+    ulpin: "UL007",
+    survey: "109/2",
+    owner: "Sri Krishna Agro Farms Pvt Ltd",
+    father: "Rep by Director K. R. Naidu",
+    khata: "KH-2021-3810",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 5.20,
+    doc_acres: 5.20,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 9800,
+    has_encumbrance: true,
+    bank_name: "Canara Bank (Agri Development Branch)",
+    mortgage_amount: 18000000,
+    has_court: false,
+    stay_active: false,
+    zoning: "Agricultural Plantation",
+    risk_level: "MODERATE_RISK",
+    risk_score: 40,
+    is_safe: false,
+    anomalies: ["Active Bank Encumbrance: ₹1.80 Crore Kisan Term Loan Mortgage with Canara Bank."]
+  },
+  UL008: {
+    ulpin: "UL008",
+    survey: "112/3",
+    owner: "K. Suresh Kumar & Co-owners",
+    father: "Late Krishna Murthy",
+    khata: "KH-2018-9182",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 3.10,
+    doc_acres: 3.10,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 6200,
+    has_court: true,
+    case_number: "RA/118/2022",
+    court_name: "Principal District & Sessions Court",
+    suit_type: "Ancestral Title Appeal & Lis Pendens",
+    parties: "Suresh Kumar vs Joint Family Coparceners",
+    stay_active: true,
+    has_encumbrance: false,
+    zoning: "Semi-Urban Residential",
+    risk_level: "BLOCKED",
+    risk_score: 90,
+    is_safe: false,
+    anomalies: ["Active Court Stay: High Court / District Court appellate stay restraining alienation."]
+  },
+  UL009: {
+    ulpin: "UL009",
+    survey: "114/2",
+    owner: "Balaji Industrial Warehousing",
+    father: "Rep by Managing Partner G. Balaji",
+    khata: "KH-2021-0081",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 3.50,
+    doc_acres: 3.50,
+    tax_status: "DEFAULTED",
+    tax_due: 142000,
+    tax_paid: 0,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "Commercial / Industrial",
+    risk_level: "HIGH_RISK",
+    risk_score: 65,
+    is_safe: false,
+    anomalies: ["Property Tax Default: ₹1,42,000 commercial non-agricultural property tax overdue for 2 cycles."]
+  },
+  UL010: {
+    ulpin: "UL010",
+    survey: "115/1",
+    owner: "Shivaram Patil",
+    father: "Tukaram Patil",
+    khata: "KH-2019-7711",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 3.45,
+    doc_acres: 4.10,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 6800,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "Agricultural Wet Land",
+    risk_level: "HIGH_RISK",
+    risk_score: 70,
+    is_safe: false,
+    anomalies: ["Area Discrepancy: Satellite GIS Area (3.45 Ac) is 0.65 acres less than registered RoR (4.10 Ac) due to stream buffer."]
+  },
+  UL011: {
+    ulpin: "UL011",
+    survey: "121/1",
+    owner: "Apex Logistics Infrastructure",
+    father: "Rep by CEO Vikram Singhal",
+    khata: "KH-2023-8822",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 4.00,
+    doc_acres: 4.00,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 16500,
+    has_encumbrance: true,
+    bank_name: "HDFC Bank (Wholesale Banking Division)",
+    mortgage_amount: 62000000,
+    has_court: false,
+    stay_active: false,
+    zoning: "Industrial Logistics Hub",
+    risk_level: "MODERATE_RISK",
+    risk_score: 50,
+    is_safe: false,
+    anomalies: ["Active Bank Encumbrance: ₹6.20 Crore corporate lien registered on title deeds."]
+  },
+  UL012: {
+    ulpin: "UL012",
+    survey: "125/2",
+    owner: "Maheshwari Developers",
+    father: "Rep by Promoter Rajesh Maheshwari",
+    khata: "KH-2022-1209",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 2.10,
+    doc_acres: 2.10,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 8400,
+    has_court: true,
+    case_number: "REV/AP/88/2024",
+    court_name: "Karnataka Appellate Tribunal",
+    suit_type: "Revenue Land Grant Appeal & Section 145 CrPC Restraint",
+    parties: "State Revenue Dept vs Maheshwari Developers",
+    stay_active: true,
+    has_encumbrance: false,
+    zoning: "Commercial Mixed-Use",
+    risk_level: "BLOCKED",
+    risk_score: 95,
+    is_safe: false,
+    anomalies: ["Active Judicial Restraint: KAT stay order and Sub-Divisional Magistrate Sec 145 CrPC restraint."]
+  },
+  UL013: {
+    ulpin: "UL013",
+    survey: "127/1",
+    owner: "Dr. Arvind Swamy",
+    father: "Prof. Narayana Swamy",
+    khata: "KH-2022-9011",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 2.50,
+    doc_acres: 2.50,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 8900,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "Approved Residential Layout (A-Khata)",
+    risk_level: "CLEAN",
+    risk_score: 0,
+    is_safe: true,
+    anomalies: ["Clean Title: Approved A-Khata layout with zero encumbrances, zero litigation, and up-to-date tax."]
+  },
+  UL014: {
+    ulpin: "UL014",
+    survey: "129/1",
+    owner: "Pradeep Hegde",
+    father: "Ganapathi Hegde",
+    khata: "KH-2020-5519",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 1.90,
+    doc_acres: 1.90,
+    tax_status: "DEFAULTED",
+    tax_due: 45500,
+    tax_paid: 0,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "Agricultural Dry Land",
+    risk_level: "MODERATE_RISK",
+    risk_score: 40,
+    is_safe: false,
+    anomalies: ["Property Tax Default: ₹45,500 overdue panchayat development tax."]
+  },
+  UL015: {
+    ulpin: "UL015",
+    survey: "130/2",
+    owner: "Reliance Bio-Agro",
+    father: "Rep by Authorized Signatory",
+    khata: "KH-2022-6644",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 2.90,
+    doc_acres: 2.60,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 5400,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "Horticulture Plantation",
+    risk_level: "MODERATE_RISK",
+    risk_score: 50,
+    is_safe: false,
+    anomalies: ["Area Mismatch: GIS boundary area (2.90 Ac) exceeds RoR deed (2.60 Ac) by +0.30 acres."]
+  },
+  UL016: {
+    ulpin: "UL016",
+    survey: "132/1",
+    owner: "Sunita Deshmukh",
+    father: "W/o Ananth Deshmukh",
+    khata: "KH-2023-1104",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 1.75,
+    doc_acres: 1.75,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 5200,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "DC Converted Residential",
+    risk_level: "CLEAN",
+    risk_score: 0,
+    is_safe: true,
+    anomalies: ["Clean Title: DC converted residential land with 30-year mother deed chain."]
+  },
+  UL020: {
+    ulpin: "UL020",
+    survey: "140/1",
+    owner: "Green Valley Orchard",
+    father: "Rep by M. Venkatesan",
+    khata: "KH-2020-7700",
+    village: "Karjat / Kengeri",
+    district: "Raigad / Bengaluru Urban",
+    state: "Maharashtra / Karnataka",
+    gis_acres: 5.00,
+    doc_acres: 5.00,
+    tax_status: "PAID",
+    tax_due: 0,
+    tax_paid: 11200,
+    has_encumbrance: false,
+    has_court: false,
+    stay_active: false,
+    zoning: "Agricultural Orchard",
+    risk_level: "CLEAN",
+    risk_score: 0,
+    is_safe: true,
+    anomalies: ["Clean Title: Verified clear agricultural title with zero encumbrance and zero litigation."]
   }
 };
 
@@ -201,7 +470,7 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
   let matchedParcel: BenchmarkParcel | null = null;
 
   // Direct ULPIN match
-  const ulpinMatch = q.match(/UL00[1-6]|ULPIN[-A-Z0-9]+/i);
+  const ulpinMatch = q.match(/UL\d+|ULPIN[-A-Z0-9]+/i);
   if (ulpinMatch) {
     const key = ulpinMatch[0].toUpperCase();
     if (REGISTRY_PARCELS[key]) matchedParcel = REGISTRY_PARCELS[key];
@@ -215,6 +484,16 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
     else if (qLower.includes("venkatesh") || qLower.includes("prasad") || qLower.includes("narayana")) matchedParcel = REGISTRY_PARCELS.UL004;
     else if (qLower.includes("anand") || qLower.includes("subba rao")) matchedParcel = REGISTRY_PARCELS.UL005;
     else if (qLower.includes("horizon") || qLower.includes("anil mehta") || qLower.includes("warehouse")) matchedParcel = REGISTRY_PARCELS.UL006;
+    else if (qLower.includes("sri krishna") || qLower.includes("naidu")) matchedParcel = REGISTRY_PARCELS.UL007;
+    else if (qLower.includes("suresh") || qLower.includes("suresh kumar")) matchedParcel = REGISTRY_PARCELS.UL008;
+    else if (qLower.includes("balaji") || qLower.includes("industrial warehousing")) matchedParcel = REGISTRY_PARCELS.UL009;
+    else if (qLower.includes("shivaram") || qLower.includes("tukaram") || qLower.includes("patil")) matchedParcel = REGISTRY_PARCELS.UL010;
+    else if (qLower.includes("apex") || qLower.includes("vikram singhal")) matchedParcel = REGISTRY_PARCELS.UL011;
+    else if (qLower.includes("maheshwari") || qLower.includes("rajesh maheshwari")) matchedParcel = REGISTRY_PARCELS.UL012;
+    else if (qLower.includes("arvind") || qLower.includes("arvind swamy")) matchedParcel = REGISTRY_PARCELS.UL013;
+    else if (qLower.includes("hegde") || qLower.includes("pradeep hegde")) matchedParcel = REGISTRY_PARCELS.UL014;
+    else if (qLower.includes("deshmukh") || qLower.includes("sunita deshmukh")) matchedParcel = REGISTRY_PARCELS.UL016;
+    else if (qLower.includes("green valley")) matchedParcel = REGISTRY_PARCELS.UL020;
   }
 
   // Survey Number match
@@ -225,6 +504,17 @@ export function queryLandStackCopilot(question: string, contextUlpin?: string): 
     else if (qLower.includes("106/1") || qLower.includes("106")) matchedParcel = REGISTRY_PARCELS.UL004;
     else if (qLower.includes("107/1") || qLower.includes("107")) matchedParcel = REGISTRY_PARCELS.UL005;
     else if (qLower.includes("108/1") || qLower.includes("108")) matchedParcel = REGISTRY_PARCELS.UL006;
+    else if (qLower.includes("109/2") || qLower.includes("109")) matchedParcel = REGISTRY_PARCELS.UL007;
+    else if (qLower.includes("112/3") || qLower.includes("112")) matchedParcel = REGISTRY_PARCELS.UL008;
+    else if (qLower.includes("114/2") || qLower.includes("114")) matchedParcel = REGISTRY_PARCELS.UL009;
+    else if (qLower.includes("115/1") || qLower.includes("115")) matchedParcel = REGISTRY_PARCELS.UL010;
+    else if (qLower.includes("121/1") || qLower.includes("121")) matchedParcel = REGISTRY_PARCELS.UL011;
+    else if (qLower.includes("125/2") || qLower.includes("125")) matchedParcel = REGISTRY_PARCELS.UL012;
+    else if (qLower.includes("127/1") || qLower.includes("127")) matchedParcel = REGISTRY_PARCELS.UL013;
+    else if (qLower.includes("129/1") || qLower.includes("129")) matchedParcel = REGISTRY_PARCELS.UL014;
+    else if (qLower.includes("130/2") || qLower.includes("130")) matchedParcel = REGISTRY_PARCELS.UL015;
+    else if (qLower.includes("132/1") || qLower.includes("132")) matchedParcel = REGISTRY_PARCELS.UL016;
+    else if (qLower.includes("140/1") || qLower.includes("140")) matchedParcel = REGISTRY_PARCELS.UL020;
   }
 
   // ── 2. Category Queries across Full Registry ──
@@ -489,13 +779,37 @@ Found **4 Benchmark Clean Parcels** verified 100% compliant across revenue, cada
   // F. Multi-Parcel Overview Table
   const isAllParcelsQuery = [
     "all ulpin", "all ulpins", "every ulpin", "all parcel", "all parcels", "all plots",
-    "details about all", "information about all", "list all", "show all", "overview of parcels"
+    "details about all", "information about all", "list all", "show all", "overview of parcels",
+    "registry directory", "all lands", "all properties"
   ].some(k => qLower.includes(k));
 
   if (isAllParcelsQuery) {
     return {
-      answer: `### 📋 Comprehensive Multi-Parcel Registry Benchmark Intelligence\n\nHere is the cross-registry audit summary for all benchmark ULPINs in the LandStack Cadastral Registry:\n\n| ULPIN | Survey No | Primary Owner | GIS Area | Doc Area | Risk Tier | Legal Status |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| \`UL001\` | \`104/1\` | Ravi Kumar | 3.20 ac | 3.20 ac | **CLEAN** | ✅ Clean Title |\n| \`UL002\` | \`104/2\` | Smt. Lakshmi Devi | 3.20 ac | 2.80 ac | **HIGH_RISK** | ⚠️ Area Discrepancy (+0.4 Ac) |\n| \`UL003\` | \`105/1\` | Ramesh Gowda | 4.50 ac | 4.50 ac | **BLOCKED** | 🚨 Judicial Stay Order (OS/442/2023) |\n| \`UL004\` | \`106/1\` | Venkatesh Prasad | 1.50 ac | 1.50 ac | **MODERATE** | 🏦 Bank Lien (SBI ₹4.5 Cr) |\n| \`UL005\` | \`107/1\` | Anand Rao | 2.40 ac | 2.40 ac | **HIGH_RISK** | ⚠️ Tax Defaulted (₹78K) |\n| \`UL006\` | \`108/1\` | Horizon Logistics | 1.80 ac | 1.80 ac | **BLOCKED** | 🚫 Unauthorized Green Belt Warehouse |\n\n💡 *Tip: To inspect any single parcel in full detail, type \`Audit <ULPIN>\` (for example, \`Audit UL001\` or \`Audit UL003\`).*`,
-      parcel_ids: ["UL001", "UL002", "UL003", "UL004", "UL005", "UL006"],
+      answer: `### 📋 Comprehensive Multi-Parcel Registry Benchmark Intelligence
+
+Here is the cross-registry audit summary for all benchmark ULPINs in the LandStack Cadastral Registry (Karjat / Kengeri Jurisdiction):
+
+| ULPIN | Survey No | Primary Owner | GIS Area | Doc Area | Risk Tier | Legal & Revenue Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| \`UL001\` | \`104/1\` | Ravi Kumar | 3.20 ac | 3.20 ac | **CLEAN** | ✅ Clean Title (Tax Paid, Nil EC, Zero Stays) |
+| \`UL002\` | \`104/2\` | Smt. Lakshmi Devi | 3.20 ac | 2.80 ac | **HIGH_RISK** | ⚠️ Area Mismatch (+0.40 ac fence expansion) |
+| \`UL003\` | \`105/1\` | Ramesh Gowda | 4.50 ac | 4.50 ac | **BLOCKED** | 🚨 Order 39 Stay Order (\`OS/442/2023\`) |
+| \`UL004\` | \`106/1\` | Venkatesh Prasad | 1.50 ac | 1.50 ac | **MODERATE** | 🏦 Active SBI Mortgage (₹4.50 Crore) |
+| \`UL005\` | \`107/1\` | Anand Rao | 2.40 ac | 2.40 ac | **HIGH_RISK** | ⚠️ Tax Defaulted (₹85.8K demand, Form 12) |
+| \`UL006\` | \`108/1\` | Horizon Logistics | 1.80 ac | 1.80 ac | **BLOCKED** | 🚨 NGT Stop-Work Injunction (\`OA/219/2023\`) |
+| \`UL007\` | \`109/2\` | Sri Krishna Agro | 5.20 ac | 5.20 ac | **MODERATE** | 🏦 Canara Bank Agri Mortgage (₹1.80 Crore) |
+| \`UL008\` | \`112/3\` | K. Suresh Kumar | 3.10 ac | 3.10 ac | **BLOCKED** | 🚨 High Court Status Quo (\`RA/118/2022\`) |
+| \`UL009\` | \`114/2\` | Balaji Warehousing | 3.50 ac | 3.50 ac | **HIGH_RISK** | ⚠️ Tax Defaulted (₹1.42 Lakhs commercial due) |
+| \`UL010\` | \`115/1\` | Shivaram Patil | 3.45 ac | 4.10 ac | **HIGH_RISK** | ⚠️ Area Deficit (-0.65 ac stream buffer) |
+| \`UL011\` | \`121/1\` | Apex Logistics | 4.00 ac | 4.00 ac | **MODERATE** | 🏦 HDFC Bank Corporate Lien (₹6.20 Crore) |
+| \`UL012\` | \`125/2\` | Maheshwari Dev | 2.10 ac | 2.10 ac | **BLOCKED** | 🚨 KAT Appeal Stay (\`REV/88/2024\`) |
+| \`UL013\` | \`127/1\` | Dr. Arvind Swamy | 2.50 ac | 2.50 ac | **CLEAN** | ✅ Approved A-Khata Residential Layout |
+| \`UL014\` | \`129/1\` | Pradeep Hegde | 1.90 ac | 1.90 ac | **MODERATE** | ⚠️ Panchayat Tax Overdue (₹45.5K demand) |
+| \`UL016\` | \`132/1\` | Sunita Deshmukh | 1.75 ac | 1.75 ac | **CLEAN** | ✅ DC Converted Residential Title |
+| \`UL020\` | \`140/1\` | Green Valley Orchard | 5.00 ac | 5.00 ac | **CLEAN** | ✅ Form 16 Nil EC Agricultural Orchard |
+
+💡 *Tip: To inspect any single parcel in full detail, type \`Audit <ULPIN>\` (for example, \`Audit UL003\` or \`Audit UL005\`).*`,
+      parcel_ids: ["UL001", "UL002", "UL003", "UL004", "UL005", "UL006", "UL007", "UL008", "UL009", "UL010", "UL011", "UL012", "UL013", "UL014", "UL016", "UL020"],
       tool_used: "list_all_parcels_summary",
       risk_score: 25,
       risk_level: "MODERATE_RISK",
